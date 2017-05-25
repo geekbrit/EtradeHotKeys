@@ -50,31 +50,29 @@ class EtradeApp(QtGui.QMainWindow, hkeys.Ui_MainWindow):
 
     def buy(self, ticker, qty):
         self.statusBar.showMessage( "Pending..." )
-        response = etradepy.buyNow( trading_account, ticker.toPlainText(), qty.toPlainText() )
-        print response
-        self.status_msg( response['PlaceEquityOrderResponse']['EquityOrderResponse']['messageList']['msgDesc'] )
+        self.report( etradepy.buyNow( trading_account, ticker.toPlainText(), qty.toPlainText() ) )
 
     def sell(self, ticker, qty):
         self.status_msg( "Pending..." )
-        response = etradepy.sellNow( trading_account, ticker.toPlainText(), qty.toPlainText() )
-        print response
-        self.status_msg( response['PlaceEquityOrderResponse']['EquityOrderResponse']['messageList']['msgDesc'] )
+        self.report( etradepy.sellNow( trading_account, ticker.toPlainText(), qty.toPlainText() ) )
 
     def slimit(self, ticker, qty, price):
         self.status_msg( "Pending..." )
-        response = etradepy.sellLimitNow( trading_account, ticker.toPlainText(), qty.toPlainText(),price.toPlainText() )
-        print response
-        self.status_msg( response['PlaceEquityOrderResponse']['EquityOrderResponse']['messageList']['msgDesc'] )
+        self.report( etradepy.sellLimitNow( trading_account, ticker.toPlainText(), qty.toPlainText(),price.toPlainText() ) )
 
     def stoploss(self, ticker, qty, trailing):
         self.status_msg( "Pending..." )
-        response = etradepy.sellStopNow( trading_account, ticker.toPlainText(), qty.toPlainText(),trailing.toPlainText() )
-        print response
-        self.status_msg( response['PlaceEquityOrderResponse']['EquityOrderResponse']['messageList']['msgDesc'] )
+        self.report( etradepy.sellStopNow( trading_account, ticker.toPlainText(), qty.toPlainText(),trailing.toPlainText() ) )
+
+    def report(self, response):
+        if 'Error' in response:
+            self.status_msg( response['Error']['message'] )
+        else:
+            self.status_msg( response['PlaceEquityOrderResponse']['EquityOrderResponse']['messageList']['msgDesc'] )
 
     def status_msg( self, message ):
         self.statusBar.showMessage( message )
-        self.cleartimer.start(3000)
+        self.cleartimer.start(9000)
 
     def arm(self, int):
         state = self.Arm.isChecked()
