@@ -43,15 +43,15 @@ class EtradeApp(QtGui.QMainWindow, ahkeys.Ui_MainWindow):
             self.SLoss_4.clicked.connect(lambda : self.stoploss(self.T_4, self.qty_4, self.loss_4))
             self.SLoss_5.clicked.connect(lambda : self.stoploss(self.T_5, self.qty_5, self.loss_5))
             #
-            self.T_1.textChanged.connect(lambda : self.ticker_1.setText(self.T_1.toPlainText()))
-            self.T_2.textChanged.connect(lambda : self.ticker_2.setText(self.T_2.toPlainText()))
-            self.T_3.textChanged.connect(lambda : self.ticker_3.setText(self.T_3.toPlainText()))
-            self.T_4.textChanged.connect(lambda : self.ticker_4.setText(self.T_4.toPlainText()))
-            self.T_5.textChanged.connect(lambda : self.ticker_5.setText(self.T_5.toPlainText()))
+            self.T_1.textChanged.connect(lambda : self.ticker_1.setText(self.T_1.text()))
+            self.T_2.textChanged.connect(lambda : self.ticker_2.setText(self.T_2.text()))
+            self.T_3.textChanged.connect(lambda : self.ticker_3.setText(self.T_3.text()))
+            self.T_4.textChanged.connect(lambda : self.ticker_4.setText(self.T_4.text()))
+            self.T_5.textChanged.connect(lambda : self.ticker_5.setText(self.T_5.text()))
         except AttributeError:
-            self.qty_1.setPlainText( '0' )
-            self.qty_2.setPlainText( '0' )
-            self.qty_3.setPlainText( '0' )
+            self.qty_1.setText( '0' )
+            self.qty_2.setText( '0' )
+            self.qty_3.setText( '0' )
             #
             self.B1K_1.clicked.connect(lambda : self.accumulate(self.T_1, 1000, self.qty_1))
             self.B1K_2.clicked.connect(lambda : self.accumulate(self.T_2, 1000, self.qty_2))
@@ -61,17 +61,17 @@ class EtradeApp(QtGui.QMainWindow, ahkeys.Ui_MainWindow):
             self.B2K_2.clicked.connect(lambda : self.accumulate(self.T_2, 2000, self.qty_2))
             self.B2K_3.clicked.connect(lambda : self.accumulate(self.T_3, 2000, self.qty_3))
             #
-            self.SAll_1.clicked.connect(lambda : self.accumulate(self.T_1, -int(self.qty_1.toPlainText()), self.qty_1 ))
-            self.SAll_2.clicked.connect(lambda : self.accumulate(self.T_2, -int(self.qty_2.toPlainText()), self.qty_2 ))
-            self.SAll_3.clicked.connect(lambda : self.accumulate(self.T_3, -int(self.qty_3.toPlainText()), self.qty_3 ))
+            self.SAll_1.clicked.connect(lambda : self.accumulate(self.T_1, -int(self.qty_1.text()), self.qty_1 ))
+            self.SAll_2.clicked.connect(lambda : self.accumulate(self.T_2, -int(self.qty_2.text()), self.qty_2 ))
+            self.SAll_3.clicked.connect(lambda : self.accumulate(self.T_3, -int(self.qty_3.text()), self.qty_3 ))
             #
-            self.SHalf_1.clicked.connect(lambda : self.accumulate(self.T_1, -int(self.qty_1.toPlainText())/2, self.qty_1 ))
-            self.SHalf_2.clicked.connect(lambda : self.accumulate(self.T_2, -int(self.qty_2.toPlainText())/2, self.qty_2 ))
-            self.SHalf_3.clicked.connect(lambda : self.accumulate(self.T_3, -int(self.qty_3.toPlainText())/2, self.qty_3 ))
+            self.SHalf_1.clicked.connect(lambda : self.accumulate(self.T_1, -int(self.qty_1.text())/2, self.qty_1 ))
+            self.SHalf_2.clicked.connect(lambda : self.accumulate(self.T_2, -int(self.qty_2.text())/2, self.qty_2 ))
+            self.SHalf_3.clicked.connect(lambda : self.accumulate(self.T_3, -int(self.qty_3.text())/2, self.qty_3 ))
             #
-            self.T_1.textChanged.connect(lambda : self.ticker_1.setText(self.T_1.toPlainText()))
-            self.T_2.textChanged.connect(lambda : self.ticker_2.setText(self.T_2.toPlainText()))
-            self.T_3.textChanged.connect(lambda : self.ticker_3.setText(self.T_3.toPlainText()))
+            self.T_1.textChanged.connect(lambda : self.ticker_1.setText(self.T_1.text()))
+            self.T_2.textChanged.connect(lambda : self.ticker_2.setText(self.T_2.text()))
+            self.T_3.textChanged.connect(lambda : self.ticker_3.setText(self.T_3.text()))
         self.Arm.stateChanged.connect(self.arm)
 
     def accumulate(self, ticker, qty, counter):
@@ -80,34 +80,34 @@ class EtradeApp(QtGui.QMainWindow, ahkeys.Ui_MainWindow):
         else:
             result = self.buy(ticker, qty)
         if result:
-            print counter.toPlainText()
+            print counter.text()
             print qty
-            counter.setPlainText(str(int(counter.toPlainText()) + int(qty)))
+            counter.setText(str(int(counter.text()) + int(qty)))
 
 
     def buy(self, ticker, qty):
         self.statusBar.showMessage( "Pending..." )
         try:
-            qty = qty.toPlainText()
+            qty = qty.text()
         except AttributeError:
             pass
-        return self.report( etradepy.buyNow( trading_account, ticker.toPlainText(), qty ) )
+        return self.report( etradepy.buyNow( trading_account, ticker.text(), qty ) )
 
     def sell(self, ticker, qty):
         try:
-            qty = qty.toPlainText()
+            qty = qty.text()
         except AttributeError:
             pass
         self.status_msg( "Pending..." )
-        return self.report( etradepy.sellNow( trading_account, ticker.toPlainText(), qty ) )
+        return self.report( etradepy.sellNow( trading_account, ticker.text(), qty ) )
 
     def slimit(self, ticker, qty, price):
         self.status_msg( "Pending..." )
-        return self.report( etradepy.sellLimitNow( trading_account, ticker.toPlainText(), qty.toPlainText(),price.toPlainText() ) )
+        return self.report( etradepy.sellLimitNow( trading_account, ticker.text(), qty.text(),price.text() ) )
 
     def stoploss(self, ticker, qty, trailing):
         self.status_msg( "Pending..." )
-        return self.report( etradepy.sellStopNow( trading_account, ticker.toPlainText(), qty.toPlainText(),trailing.toPlainText() ) )
+        return self.report( etradepy.sellStopNow( trading_account, ticker.text(), qty.text(),trailing.text() ) )
 
     def report(self, response):
         print response

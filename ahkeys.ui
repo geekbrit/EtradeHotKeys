@@ -496,7 +496,7 @@
          <set>Qt::AlignCenter</set>
         </property>
        </widget>
-       <widget class="QPlainTextEdit" name="qty_1">
+       <widget class="QLineEdit" name="qty_1">
         <property name="geometry">
          <rect>
           <x>50</x>
@@ -956,7 +956,7 @@
          <string>Sell Half</string>
         </property>
        </widget>
-       <widget class="QPlainTextEdit" name="T_1">
+       <widget class="QLineEdit" name="T_1">
         <property name="geometry">
          <rect>
           <x>50</x>
@@ -1064,7 +1064,7 @@
          <set>Qt::AlignCenter</set>
         </property>
        </widget>
-       <widget class="QPlainTextEdit" name="qty_2">
+       <widget class="QLineEdit" name="qty_2">
         <property name="geometry">
          <rect>
           <x>40</x>
@@ -1111,7 +1111,7 @@
          </palette>
         </property>
        </widget>
-       <widget class="QPlainTextEdit" name="T_2">
+       <widget class="QLineEdit" name="T_2">
         <property name="geometry">
          <rect>
           <x>40</x>
@@ -1222,7 +1222,7 @@
          <set>Qt::AlignCenter</set>
         </property>
        </widget>
-       <widget class="QPlainTextEdit" name="qty_3">
+       <widget class="QLineEdit" name="qty_3">
         <property name="geometry">
          <rect>
           <x>30</x>
@@ -1269,7 +1269,7 @@
          </palette>
         </property>
        </widget>
-       <widget class="QPlainTextEdit" name="T_3">
+       <widget class="QLineEdit" name="T_3">
         <property name="geometry">
          <rect>
           <x>30</x>

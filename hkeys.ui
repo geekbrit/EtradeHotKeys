@@ -496,7 +496,7 @@
          <set>Qt::AlignCenter</set>
         </property>
        </widget>
-       <widget class="QPlainTextEdit" name="price_1">
+       <widget class="QLineEdit" name="price_1">
         <property name="geometry">
          <rect>
           <x>50</x>
@@ -509,7 +509,7 @@
          <string extracomment="price">Price</string>
         </property>
        </widget>
-       <widget class="QPlainTextEdit" name="qty_1">
+       <widget class="QLineEdit" name="qty_1">
         <property name="geometry">
          <rect>
           <x>50</x>
@@ -985,7 +985,7 @@
          <string>Stop loss</string>
         </property>
        </widget>
-       <widget class="QPlainTextEdit" name="loss_1">
+       <widget class="QLineEdit" name="loss_1">
         <property name="geometry">
          <rect>
           <x>50</x>
@@ -998,7 +998,7 @@
          <string extracomment="stop loss">Stop loss $</string>
         </property>
        </widget>
-       <widget class="QPlainTextEdit" name="T_1">
+       <widget class="QLineEdit" name="T_1">
         <property name="geometry">
          <rect>
           <x>50</x>
@@ -1132,7 +1132,7 @@
          <set>Qt::AlignCenter</set>
         </property>
        </widget>
-       <widget class="QPlainTextEdit" name="price_2">
+       <widget class="QLineEdit" name="price_2">
         <property name="geometry">
          <rect>
           <x>20</x>
@@ -1142,7 +1142,7 @@
          </rect>
         </property>
        </widget>
-       <widget class="QPlainTextEdit" name="qty_2">
+       <widget class="QLineEdit" name="qty_2">
         <property name="geometry">
          <rect>
           <x>20</x>
@@ -1237,7 +1237,7 @@
          <string>Stop loss</string>
         </property>
        </widget>
-       <widget class="QPlainTextEdit" name="loss_2">
+       <widget class="QLineEdit" name="loss_2">
         <property name="geometry">
          <rect>
           <x>20</x>
@@ -1247,7 +1247,7 @@
          </rect>
         </property>
        </widget>
-       <widget class="QPlainTextEdit" name="T_2">
+       <widget class="QLineEdit" name="T_2">
         <property name="geometry">
          <rect>
           <x>20</x>
@@ -1310,7 +1310,7 @@
          <set>Qt::AlignCenter</set>
         </property>
        </widget>
-       <widget class="QPlainTextEdit" name="price_3">
+       <widget class="QLineEdit" name="price_3">
         <property name="geometry">
          <rect>
           <x>20</x>
@@ -1320,7 +1320,7 @@
          </rect>
         </property>
        </widget>
-       <widget class="QPlainTextEdit" name="qty_3">
+       <widget class="QLineEdit" name="qty_3">
         <property name="geometry">
          <rect>
           <x>20</x>
@@ -1415,7 +1415,7 @@
          <string>Stop loss</string>
         </property>
        </widget>
-       <widget class="QPlainTextEdit" name="loss_3">
+       <widget class="QLineEdit" name="loss_3">
         <property name="geometry">
          <rect>
           <x>20</x>
@@ -1425,7 +1425,7 @@
          </rect>
         </property>
        </widget>
-       <widget class="QPlainTextEdit" name="T_3">
+       <widget class="QLineEdit" name="T_3">
         <property name="geometry">
          <rect>
           <x>20</x>
@@ -1488,7 +1488,7 @@
          <set>Qt::AlignCenter</set>
         </property>
        </widget>
-       <widget class="QPlainTextEdit" name="price_4">
+       <widget class="QLineEdit" name="price_4">
         <property name="geometry">
          <rect>
           <x>20</x>
@@ -1498,7 +1498,7 @@
          </rect>
         </property>
        </widget>
-       <widget class="QPlainTextEdit" name="qty_4">
+       <widget class="QLineEdit" name="qty_4">
         <property name="geometry">
          <rect>
           <x>20</x>
@@ -1593,7 +1593,7 @@
          <string>Stop loss</string>
         </property>
        </widget>
-       <widget class="QPlainTextEdit" name="loss_4">
+       <widget class="QLineEdit" name="loss_4">
         <property name="geometry">
          <rect>
           <x>20</x>
@@ -1603,7 +1603,7 @@
          </rect>
         </property>
        </widget>
-       <widget class="QPlainTextEdit" name="T_4">
+       <widget class="QLineEdit" name="T_4">
         <property name="geometry">
          <rect>
           <x>20</x>
@@ -1666,7 +1666,7 @@
          <set>Qt::AlignCenter</set>
         </property>
        </widget>
-       <widget class="QPlainTextEdit" name="price_5">
+       <widget class="QLineEdit" name="price_5">
         <property name="geometry">
          <rect>
           <x>20</x>
@@ -1676,7 +1676,7 @@
          </rect>
         </property>
        </widget>
-       <widget class="QPlainTextEdit" name="qty_5">
+       <widget class="QLineEdit" name="qty_5">
         <property name="geometry">
          <rect>
           <x>20</x>
@@ -1771,7 +1771,7 @@
          <string>Stop loss</string>
         </property>
        </widget>
-       <widget class="QPlainTextEdit" name="loss_5">
+       <widget class="QLineEdit" name="loss_5">
         <property name="geometry">
          <rect>
           <x>20</x>
@@ -1781,7 +1781,7 @@
          </rect>
         </property>
        </widget>
-       <widget class="QPlainTextEdit" name="T_5">
+       <widget class="QLineEdit" name="T_5">
         <property name="geometry">
          <rect>
           <x>20</x>
