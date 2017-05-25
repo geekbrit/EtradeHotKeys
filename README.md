@@ -9,9 +9,9 @@ This project uses a substantial amount of code from etradePythonAPI (there appea
 I stripped out the virtual screen and login scraping code from etradePythonAPI & replaced it with a simple browser launcher & raw_input for entering the etrade verification code on the command line.
 
 The frontend is designed using the QT4 Designer utility, then converted to python using:
-'''
+```
 pyuic4 hkeys.ui > hkeys.py
-'''
+```
 
 The panel as designed allows you to work with five different stocks, with inputs and buttons arranged in a column for each stock. Enter the ticker symbol in the input at the bottom of the column, do not press <return> or <tab>.
 
@@ -28,11 +28,11 @@ You will need to apply for an individual consumer key via a secure communication
 Be aware that when you place test orders on the sandbox server, you will recieve back nonsense order confirmations that will be of the correct type, but for random stock ticker names, prices, and quantities. This is to be expected.
 
 The sandbox and production keys can be placed directly into etrade_settings.py, but if you're likely to share the code or put it into a public repository, it is probably better to put the keys into your .bashrc file (or similar depending on your OS) so that they can be read by the program without being part of the codebase:
-'''
+```
 export ETRADE_SANDBOX_KEY='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 export ETRADE_SANDBOX_SECRET='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 export ETRADE_PRODUCTION_KEY='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 export ETRADE_PRODUCTION_SECRET='xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-'''
+```
 
 THIS SOFTWARE DOES NOT COME WITH ANY WARRANTIES WHATSOEVER. USE AT YOUR OWN RISK
