@@ -5,6 +5,7 @@ sip.setapi('QVariant', 2)
 from PyQt4 import QtGui
 from PyQt4.QtCore import QTimer
 import sys
+import json
 import hkeys
 import ahkeys
 import etradepy
@@ -175,6 +176,58 @@ class EtradeApp(QtGui.QMainWindow, ahkeys.Ui_MainWindow):
             self.SAll_3.setEnabled(state)
             self.SHalf_3.setEnabled(state)
 
+    def saveState( self ):
+        try:
+            data = {
+                    't1': self.T_1.text(),
+                    't2': self.T_2.text(),
+                    't3': self.T_3.text(),
+                    't4': self.T_4.text(),
+                    't5': self.T_5.text(),
+                    'q1': self.qty_1.text(),
+                    'q2': self.qty_2.text(),
+                    'q3': self.qty_3.text(),
+                    'q4': self.qty_4.text(),
+                    'q5': self.qty_5.text()
+                    }
+        except AttributeError:
+            data = {
+                    't1': self.T_1.text(),
+                    't2': self.T_2.text(),
+                    't3': self.T_3.text(),
+                    'q1': self.qty_1.text(),
+                    'q2': self.qty_2.text(),
+                    'q3': self.qty_3.text(),
+                    }
+        with open('state.txt', 'w') as outfile:
+            json.dump( data, outfile )
+
+    def restoreState( self ):
+        try:
+            with open('state.txt','r') as infile:
+                data = json.load( infile )
+        except IOError:
+            return
+        try:
+            self.T_1.setText( data['t1'] )
+            self.T_2.setText( data['t2'] )
+            self.T_3.setText( data['t3'] )
+            self.T_4.setText( data['t4'] )
+            self.T_5.setText( data['t5'] )
+            self.qty_1.setText( data['q1'] )
+            self.qty_2.setText( data['q2'] )
+            self.qty_3.setText( data['q3'] )
+            self.qty_4.setText( data['q4'] )
+            self.qty_5.setText( data['q5'] )
+        except AttributeError:
+            self.T_1.setText( data['t1'] )
+            self.T_2.setText( data['t2'] )
+            self.T_3.setText( data['t3'] )
+            self.qty_1.setText( data['q1'] )
+            self.qty_2.setText( data['q2'] )
+            self.qty_3.setText( data['q3'] )
+
+
 
 def main():
     global trading_account
@@ -188,6 +241,8 @@ def main():
     form = EtradeApp()
     form.show()
     form.statusBar.showMessage( accounts['json.accountListResponse']['response'][0]['accountDesc'])
+    form.restoreState()
+    app.aboutToQuit.connect(form.saveState)
     app.exec_()
 
 if __name__ == '__main__':

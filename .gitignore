@@ -1,4 +1,5 @@
 user_tokens.p
 *.pyc
 etrade_settings.py
+state.txt
 
