@@ -1,6 +1,7 @@
 import os
 
-sandboxMode = True
+sandboxMode = False
+#sandboxMode = True
 
 
 if sandboxMode:
