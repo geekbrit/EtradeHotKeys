@@ -12,7 +12,7 @@ import ahkeys
 import etradepy
 
 # GLOBAL CONFIG SETTINGS
-TRADESIZE = 3000 #dollars
+TRADESIZE = 4000 #dollars
 
 
 class EtradeApp(QtGui.QMainWindow, ahkeys.Ui_MainWindow):

@@ -1,7 +1,7 @@
 import os
 
-#sandboxMode = False
-sandboxMode = True
+sandboxMode = False
+#sandboxMode = True
 
 
 if sandboxMode:
