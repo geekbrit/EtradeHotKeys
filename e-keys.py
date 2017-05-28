@@ -5,10 +5,15 @@ sip.setapi('QVariant', 2)
 from PyQt4 import QtGui
 from PyQt4.QtCore import QTimer
 import sys
+import math
 import json
 import hkeys
 import ahkeys
 import etradepy
+
+# GLOBAL CONFIG SETTINGS
+TRADESIZE = 3000 #dollars
+
 
 class EtradeApp(QtGui.QMainWindow, ahkeys.Ui_MainWindow):
     def __init__(self, parent=None):
@@ -54,13 +59,13 @@ class EtradeApp(QtGui.QMainWindow, ahkeys.Ui_MainWindow):
             self.qty_2.setText( '0' )
             self.qty_3.setText( '0' )
             #
-            self.B1K_1.clicked.connect(lambda : self.accumulate(self.T_1, 1000, self.qty_1))
-            self.B1K_2.clicked.connect(lambda : self.accumulate(self.T_2, 1000, self.qty_2))
-            self.B1K_3.clicked.connect(lambda : self.accumulate(self.T_3, 1000, self.qty_3))
+            self.B1K_1.clicked.connect(lambda : self.accumulate(self.T_1, int(self.multiplier_1.text()), self.qty_1))
+            self.B1K_2.clicked.connect(lambda : self.accumulate(self.T_2, int(self.multiplier_2.text()), self.qty_2))
+            self.B1K_3.clicked.connect(lambda : self.accumulate(self.T_3, int(self.multiplier_3.text()), self.qty_3))
             #
-            self.B2K_1.clicked.connect(lambda : self.accumulate(self.T_1, 2000, self.qty_1))
-            self.B2K_2.clicked.connect(lambda : self.accumulate(self.T_2, 2000, self.qty_2))
-            self.B2K_3.clicked.connect(lambda : self.accumulate(self.T_3, 2000, self.qty_3))
+            self.B2K_1.clicked.connect(lambda : self.accumulate(self.T_1, int(self.multiplier_1.text())*2, self.qty_1))
+            self.B2K_2.clicked.connect(lambda : self.accumulate(self.T_2, int(self.multiplier_2.text())*2, self.qty_2))
+            self.B2K_3.clicked.connect(lambda : self.accumulate(self.T_3, int(self.multiplier_3.text())*2, self.qty_3))
             #
             self.SAll_1.clicked.connect(lambda : self.accumulate(self.T_1, -int(self.qty_1.text()), self.qty_1 ))
             self.SAll_2.clicked.connect(lambda : self.accumulate(self.T_2, -int(self.qty_2.text()), self.qty_2 ))
@@ -70,10 +75,25 @@ class EtradeApp(QtGui.QMainWindow, ahkeys.Ui_MainWindow):
             self.SHalf_2.clicked.connect(lambda : self.accumulate(self.T_2, -int(self.qty_2.text())/2, self.qty_2 ))
             self.SHalf_3.clicked.connect(lambda : self.accumulate(self.T_3, -int(self.qty_3.text())/2, self.qty_3 ))
             #
-            self.T_1.textChanged.connect(lambda : self.ticker_1.setText(self.T_1.text()))
-            self.T_2.textChanged.connect(lambda : self.ticker_2.setText(self.T_2.text()))
-            self.T_3.textChanged.connect(lambda : self.ticker_3.setText(self.T_3.text()))
+            self.T_1.textChanged.connect(lambda : self.setTicker( self.T_1.text(), self.ticker_1, self.multiplier_1 ))
+            self.T_2.textChanged.connect(lambda : self.setTicker( self.T_2.text(), self.ticker_2, self.multiplier_2 ))
+            self.T_3.textChanged.connect(lambda : self.setTicker( self.T_3.text(), self.ticker_3, self.multiplier_3 ))
         self.Arm.stateChanged.connect(self.arm)
+
+    def setTicker( self, ticker, tickerLabel, multiplier ):
+        """ Use ticker text to look up the price of the stock,
+            set the ticker label text
+            and set the multiplier input to the number of shares required to meet "TRADESIZE" setting
+        """
+        ticker = ticker.upper()
+        tickerLabel.setText( ticker )
+        quote = etradepy.getQuote( ticker )
+        print quote
+        price = quote['quoteResponse']['quoteData']['all']['lastTrade']
+        quantity = TRADESIZE / price
+        quantity = int(math.ceil(quantity / 10.0)) * 10
+        multiplier.setText( str(quantity) )
+
 
     def accumulate(self, ticker, qty, counter):
         if qty < 0:
@@ -198,6 +218,9 @@ class EtradeApp(QtGui.QMainWindow, ahkeys.Ui_MainWindow):
                     'q1': self.qty_1.text(),
                     'q2': self.qty_2.text(),
                     'q3': self.qty_3.text(),
+                    'm1': self.multiplier_1.text(),
+                    'm2': self.multiplier_2.text(),
+                    'm3': self.multiplier_3.text()
                     }
         with open('state.txt', 'w') as outfile:
             json.dump( data, outfile )
@@ -226,6 +249,9 @@ class EtradeApp(QtGui.QMainWindow, ahkeys.Ui_MainWindow):
             self.qty_1.setText( data['q1'] )
             self.qty_2.setText( data['q2'] )
             self.qty_3.setText( data['q3'] )
+            self.multiplier_1.setText( data['m1'] )
+            self.multiplier_2.setText( data['m2'] )
+            self.multiplier_3.setText( data['m3'] )
 
 
 
