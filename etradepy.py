@@ -416,6 +416,58 @@ def previewEquityOrder(AcctNumber, symbol, orderAction, quantity, priceType,
 
   return liveParams, resp
 
+def buyToCoverNow(AcctNumber, symbol, quantity ):
+    # linking the id to the current time/date minimizes risk of double-clicking orders
+    # MAY need to add minimum time interval for same ticker (3s?)
+    clientOrderId = datetime.datetime.now().strftime('%y%m%d%H%M%S')+symbol
+    EquityOrderRequest = {
+       "accountId": AcctNumber,
+       "symbol": symbol,
+       "orderAction": "BUY_TO_COVER",
+       "clientOrderId": clientOrderId,
+       "priceType": "MARKET",
+       "quantity": quantity,
+       "marketSession": "REGULAR",
+       "orderTerm": "GOOD_FOR_DAY",
+       "routingDestination": "AUTO"
+    }
+    # these are the params needed for placing actual order
+    liveParams = {
+        "PlaceEquityOrder": {
+            "-xmlns": "http://order.etws.etrade.com",
+            'EquityOrderRequest' : EquityOrderRequest
+        }
+    }
+    print liveParams
+    return placeEquityOrder(liveParams)
+
+
+def sellShortNow(AcctNumber, symbol, quantity ):
+    # linking the id to the current time/date minimizes risk of double-clicking orders
+    # MAY need to add minimum time interval for same ticker (3s?)
+    clientOrderId = datetime.datetime.now().strftime('%y%m%d%H%M')+symbol
+    EquityOrderRequest = {
+       "accountId": AcctNumber,
+       "symbol": symbol,
+       "orderAction": "SELL_SHORT",
+       "clientOrderId": clientOrderId,
+       "priceType": "MARKET",
+       "quantity": quantity,
+       "marketSession": "REGULAR",
+       "orderTerm": "GOOD_FOR_DAY",
+       "routingDestination": "AUTO"
+    }
+    # these are the params needed for placing actual order
+    liveParams = {
+        "PlaceEquityOrder": {
+            "-xmlns": "http://order.etws.etrade.com",
+            'EquityOrderRequest' : EquityOrderRequest
+        }
+    }
+    print liveParams
+    return placeEquityOrder(liveParams)
+
+
 def buyNow(AcctNumber, symbol, quantity ):
     # linking the id to the current time/date minimizes risk of double-clicking orders
     # MAY need to add minimum time interval for same ticker (3s?)
@@ -533,6 +585,8 @@ def placeEquityOrder(liveParams, is_retry=False):
   resp = accessMethod(url = url, method = 'POST', payload = liveParams )
 
   if 'Error' in resp and not is_retry:
+    print '---- ERROR ----'
+    print resp
     print 'trying to renew token...'
     # try renewing access token first,
     renewAccessToken()

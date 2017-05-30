@@ -7,21 +7,23 @@ from PyQt4.QtCore import QTimer
 import sys
 import math
 import json
-import hkeys
-import ahkeys
+#import hkeys
+#import ahkeys
+import ashkeys
 import etradepy
 
 # GLOBAL CONFIG SETTINGS
 TRADESIZE = 4000 #dollars
 
 
-class EtradeApp(QtGui.QMainWindow, ahkeys.Ui_MainWindow):
+class EtradeApp(QtGui.QMainWindow, ashkeys.Ui_MainWindow):
     def __init__(self, parent=None):
         super(EtradeApp, self).__init__(parent)
         self.setupUi(self)
 
         self.cleartimer = QTimer()
         self.cleartimer.timeout.connect(lambda : self.statusBar.showMessage( "" ) )
+        self.Arm.stateChanged.connect(self.arm)
 
         try:
             #
@@ -78,7 +80,27 @@ class EtradeApp(QtGui.QMainWindow, ahkeys.Ui_MainWindow):
             self.T_1.textChanged.connect(lambda : self.setTicker( self.T_1.text(), self.ticker_1, self.multiplier_1 ))
             self.T_2.textChanged.connect(lambda : self.setTicker( self.T_2.text(), self.ticker_2, self.multiplier_2 ))
             self.T_3.textChanged.connect(lambda : self.setTicker( self.T_3.text(), self.ticker_3, self.multiplier_3 ))
-        self.Arm.stateChanged.connect(self.arm)
+
+        try: # Short Sale buttons (if present)
+            self.SH1x_1.clicked.connect(lambda : self.accumulate(self.T_1, int(self.multiplier_1.text()), self.qty_1, type='SHORT'))
+            self.SH1x_2.clicked.connect(lambda : self.accumulate(self.T_2, int(self.multiplier_2.text()), self.qty_2, type='SHORT'))
+            self.SH1x_3.clicked.connect(lambda : self.accumulate(self.T_3, int(self.multiplier_3.text()), self.qty_3, type='SHORT'))
+            #
+            self.SH2x_1.clicked.connect(lambda : self.accumulate(self.T_1, int(self.multiplier_1.text())*2, self.qty_1, type='SHORT'))
+            self.SH2x_2.clicked.connect(lambda : self.accumulate(self.T_2, int(self.multiplier_2.text())*2, self.qty_2, type='SHORT'))
+            self.SH2x_3.clicked.connect(lambda : self.accumulate(self.T_3, int(self.multiplier_3.text())*2, self.qty_3, type='SHORT'))
+            #
+            self.BCa_1.clicked.connect(lambda : self.accumulate(self.T_1, -int(self.qty_1.text()), self.qty_1, type='SHORT' ))
+            self.BCa_2.clicked.connect(lambda : self.accumulate(self.T_2, -int(self.qty_2.text()), self.qty_2, type='SHORT' ))
+            self.BCa_3.clicked.connect(lambda : self.accumulate(self.T_3, -int(self.qty_3.text()), self.qty_3, type='SHORT' ))
+            #
+            self.BCh_1.clicked.connect(lambda : self.accumulate(self.T_1, -int(self.qty_1.text())/2, self.qty_1, type='SHORT' ))
+            self.BCh_2.clicked.connect(lambda : self.accumulate(self.T_2, -int(self.qty_2.text())/2, self.qty_2, type='SHORT' ))
+            self.BCh_3.clicked.connect(lambda : self.accumulate(self.T_3, -int(self.qty_3.text())/2, self.qty_3, type='SHORT' ))
+        except AttributeError:
+            print "no short buttons"
+            pass
+
 
     def setTicker( self, ticker, tickerLabel, multiplier ):
         """ Use ticker text to look up the price of the stock,
@@ -86,25 +108,52 @@ class EtradeApp(QtGui.QMainWindow, ahkeys.Ui_MainWindow):
             and set the multiplier input to the number of shares required to meet "TRADESIZE" setting
         """
         ticker = ticker.upper()
+        #
+        # UGLY - only looks up price when you add a space to the end of the ticker symbol
+        #
+        if len(ticker) and ticker[-1] == ' ':
+            ticker = ticker[:-1]
+            quote = etradepy.getQuote( ticker )
+            print quote
+            price = quote['quoteResponse']['quoteData']['all']['lastTrade']
+            quantity = TRADESIZE / price
+            quantity = int(math.ceil(quantity / 10.0)) * 10
+            multiplier.setText( str(quantity) )
         tickerLabel.setText( ticker )
-        quote = etradepy.getQuote( ticker )
-        print quote
-        price = quote['quoteResponse']['quoteData']['all']['lastTrade']
-        quantity = TRADESIZE / price
-        quantity = int(math.ceil(quantity / 10.0)) * 10
-        multiplier.setText( str(quantity) )
 
 
-    def accumulate(self, ticker, qty, counter):
-        if qty < 0:
-            result = self.sell(ticker, -qty)
+    def accumulate(self, ticker, qty, counter, type='LONG'):
+        if type == 'LONG':
+            if qty < 0:
+                result = self.sell(ticker, -qty)
+            else:
+                result = self.buy(ticker, qty)
         else:
-            result = self.buy(ticker, qty)
+            if qty < 0:
+                result = self.buy_to_cover(ticker, -qty)
+            else:
+                result = self.sell_short(ticker, qty)
         if result:
             print counter.text()
             print qty
             counter.setText(str(int(counter.text()) + int(qty)))
 
+
+    def buy_to_cover(self, ticker, qty):
+        self.statusBar.showMessage( "Pending..." )
+        try:
+            qty = qty.text()
+        except AttributeError:
+            pass
+        return self.report( etradepy.buyToCoverNow( trading_account, ticker.text(), qty ) )
+
+    def sell_short(self, ticker, qty):
+        try:
+            qty = qty.text()
+        except AttributeError:
+            pass
+        self.status_msg( "Pending..." )
+        return self.report( etradepy.sellShortNow( trading_account, ticker.text(), qty ) )
 
     def buy(self, ticker, qty):
         self.statusBar.showMessage( "Pending..." )
@@ -133,6 +182,7 @@ class EtradeApp(QtGui.QMainWindow, ahkeys.Ui_MainWindow):
     def report(self, response):
         print response
         if 'Error' in response:
+            print vars(response)
             self.status_msg( response['Error']['message'] )
             return False
         else:
@@ -195,6 +245,23 @@ class EtradeApp(QtGui.QMainWindow, ahkeys.Ui_MainWindow):
             self.B2K_3.setEnabled(state)
             self.SAll_3.setEnabled(state)
             self.SHalf_3.setEnabled(state)
+        try:
+            self.SH1x_1.setEnabled(state)
+            self.SH2x_1.setEnabled(state)
+            self.BCa_1.setEnabled(state)
+            self.BCh_1.setEnabled(state)
+            #
+            self.SH1x_2.setEnabled(state)
+            self.SH2x_2.setEnabled(state)
+            self.BCa_2.setEnabled(state)
+            self.BCh_2.setEnabled(state)
+            #
+            self.SH1x_3.setEnabled(state)
+            self.SH2x_3.setEnabled(state)
+            self.BCa_3.setEnabled(state)
+            self.BCh_3.setEnabled(state)
+        except AttributeError:
+            pass
 
     def saveState( self ):
         try:
