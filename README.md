@@ -2,6 +2,18 @@
 
 The motivation for this project was to allow Etrade buys and sells to be made more quickly than is possible using the tools built into etradePro. This is achieved by eliminating the "Preview" step and "Cancelled due to timeout" that occurs in etradePro if you leave the preview open too long before placing your trade. THIS MAKES HOTKEYS A VERY DANGEROUS TOOL TO USE IF YOU MAKE A MISTAKE WHEN CLICKING "BUY" OR "SELL". Be sure you really intend to place the trade before clicking any button.
 
+**Update** - this project now has two available user interfaces, the original 'hkeys' described below, and a more advanced 'ahkeys' option that is targeted at active trading, where positions may be accumulated and closed out at various times.
+
+## Standard 'hkeys' layout:
+![hkeys screenshot](docs/img/hkeys.png)
+
+## Advanced 'ahkeys' layout:
+![ahkeys screenshot](docs/img/ahkeys.png)
+
+Currently, the layout is selected by editing the class definition for EtradeApp in e-keys.py.
+
+## Description
+
 There is a checkbox in the leftmost column of the tool panel that globally disables or enables all of the buy and sell buttons. The buttons are disabled when the panel opens, and must be armed by clicking in the checkbox before any trades can be placed. I recommend leaving the panel disarmed at all times unless you intend to make a trade.
 
 This project uses a substantial amount of code from etradePythonAPI (there appear to be two separate identical projects for this on GitHub, I'm not sure whose is the original).
