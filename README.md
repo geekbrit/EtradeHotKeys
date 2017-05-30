@@ -10,6 +10,13 @@ The motivation for this project was to allow Etrade buys and sells to be made mo
 ## Advanced 'ahkeys' layout:
 ![ahkeys screenshot](docs/img/ahkeys.png)
 
+## Advanced 'ashkeys' layout with Short Sale keys:
+![ashkeys screenshot](docs/img/ashkeys.png)
+
+This layout has long buy/sell buttons on the left of each ticker group, and short sell / buy to cover buttons on the right.Al
+
+All transaction-open operations (buy, and sell-short) are based on multiples of the Xfact value, which is calculated from a nominal order value (currently hardcoded in e-keys.py), and transaction-close operations (sell, and buy-to-close) work on either the full open quantity, or half the open quantity. The quantity that can be bought using the nominal order value is calculated **when you type a space character at the end of the ticker symbol**. This is a nasty temporary workaround to avoid multiple quote requests before the full ticker is entered.
+
 Currently, the layout is selected by editing the class definition for EtradeApp in e-keys.py.
 
 ## Description
