@@ -3,20 +3,19 @@ import sip
 sip.setapi('QString', 2)
 sip.setapi('QVariant', 2)
 from PyQt4 import QtGui
-from PyQt4.QtCore import QTimer
+from PyQt4.QtCore import QTimer, QRegExp
 import sys
 import math
 import json
 #import hkeys
 #import ahkeys
-import ashkeys
+#import ashkeys
+import ashkeys5
 import etradepy
 
-# GLOBAL CONFIG SETTINGS
-TRADESIZE = 4000 #dollars
+from etrade_settings import TRADESIZE
 
-
-class EtradeApp(QtGui.QMainWindow, ashkeys.Ui_MainWindow):
+class EtradeApp(QtGui.QMainWindow, ashkeys5.Ui_MainWindow):
     def __init__(self, parent=None):
         super(EtradeApp, self).__init__(parent)
         self.setupUi(self)
@@ -25,80 +24,86 @@ class EtradeApp(QtGui.QMainWindow, ashkeys.Ui_MainWindow):
         self.cleartimer.timeout.connect(lambda : self.statusBar.showMessage( "" ) )
         self.Arm.stateChanged.connect(self.arm)
 
-        try:
-            #
-            self.Buy_1.clicked.connect(lambda : self.buy(self.T_1, self.qty_1))
-            self.Buy_2.clicked.connect(lambda : self.buy(self.T_2, self.qty_2))
-            self.Buy_3.clicked.connect(lambda : self.buy(self.T_3, self.qty_3))
-            self.Buy_4.clicked.connect(lambda : self.buy(self.T_4, self.qty_4))
-            self.Buy_5.clicked.connect(lambda : self.buy(self.T_5, self.qty_5))
-            #
-            self.Sell_1.clicked.connect(lambda : self.sell(self.T_1, self.qty_1))
-            self.Sell_2.clicked.connect(lambda : self.sell(self.T_2, self.qty_2))
-            self.Sell_3.clicked.connect(lambda : self.sell(self.T_3, self.qty_3))
-            self.Sell_4.clicked.connect(lambda : self.sell(self.T_4, self.qty_4))
-            self.Sell_5.clicked.connect(lambda : self.sell(self.T_5, self.qty_5))
-            #
-            self.SLimit_1.clicked.connect(lambda : self.slimit(self.T_1, self.qty_1, self.price_1))
-            self.SLimit_2.clicked.connect(lambda : self.slimit(self.T_2, self.qty_2, self.price_2))
-            self.SLimit_3.clicked.connect(lambda : self.slimit(self.T_3, self.qty_3, self.price_3))
-            self.SLimit_4.clicked.connect(lambda : self.slimit(self.T_4, self.qty_4, self.price_4))
-            self.SLimit_5.clicked.connect(lambda : self.slimit(self.T_5, self.qty_5, self.price_5))
-            #
-            self.SLoss_1.clicked.connect(lambda : self.stoploss(self.T_1, self.qty_1, self.loss_1))
-            self.SLoss_2.clicked.connect(lambda : self.stoploss(self.T_2, self.qty_2, self.loss_2))
-            self.SLoss_3.clicked.connect(lambda : self.stoploss(self.T_3, self.qty_3, self.loss_3))
-            self.SLoss_4.clicked.connect(lambda : self.stoploss(self.T_4, self.qty_4, self.loss_4))
-            self.SLoss_5.clicked.connect(lambda : self.stoploss(self.T_5, self.qty_5, self.loss_5))
-            #
-            self.T_1.textChanged.connect(lambda : self.ticker_1.setText(self.T_1.text()))
-            self.T_2.textChanged.connect(lambda : self.ticker_2.setText(self.T_2.text()))
-            self.T_3.textChanged.connect(lambda : self.ticker_3.setText(self.T_3.text()))
-            self.T_4.textChanged.connect(lambda : self.ticker_4.setText(self.T_4.text()))
-            self.T_5.textChanged.connect(lambda : self.ticker_5.setText(self.T_5.text()))
-        except AttributeError:
-            self.qty_1.setText( '0' )
-            self.qty_2.setText( '0' )
-            self.qty_3.setText( '0' )
-            #
-            self.B1K_1.clicked.connect(lambda : self.accumulate(self.T_1, int(self.multiplier_1.text()), self.qty_1))
-            self.B1K_2.clicked.connect(lambda : self.accumulate(self.T_2, int(self.multiplier_2.text()), self.qty_2))
-            self.B1K_3.clicked.connect(lambda : self.accumulate(self.T_3, int(self.multiplier_3.text()), self.qty_3))
-            #
-            self.B2K_1.clicked.connect(lambda : self.accumulate(self.T_1, int(self.multiplier_1.text())*2, self.qty_1))
-            self.B2K_2.clicked.connect(lambda : self.accumulate(self.T_2, int(self.multiplier_2.text())*2, self.qty_2))
-            self.B2K_3.clicked.connect(lambda : self.accumulate(self.T_3, int(self.multiplier_3.text())*2, self.qty_3))
-            #
-            self.SAll_1.clicked.connect(lambda : self.accumulate(self.T_1, -int(self.qty_1.text()), self.qty_1 ))
-            self.SAll_2.clicked.connect(lambda : self.accumulate(self.T_2, -int(self.qty_2.text()), self.qty_2 ))
-            self.SAll_3.clicked.connect(lambda : self.accumulate(self.T_3, -int(self.qty_3.text()), self.qty_3 ))
-            #
-            self.SHalf_1.clicked.connect(lambda : self.accumulate(self.T_1, -int(self.qty_1.text())/2, self.qty_1 ))
-            self.SHalf_2.clicked.connect(lambda : self.accumulate(self.T_2, -int(self.qty_2.text())/2, self.qty_2 ))
-            self.SHalf_3.clicked.connect(lambda : self.accumulate(self.T_3, -int(self.qty_3.text())/2, self.qty_3 ))
-            #
-            self.T_1.textChanged.connect(lambda : self.setTicker( self.T_1.text(), self.ticker_1, self.multiplier_1 ))
-            self.T_2.textChanged.connect(lambda : self.setTicker( self.T_2.text(), self.ticker_2, self.multiplier_2 ))
-            self.T_3.textChanged.connect(lambda : self.setTicker( self.T_3.text(), self.ticker_3, self.multiplier_3 ))
+        qreq = QRegExp(r'frame.\d')
+        frames = self.findChildren(QtGui.QFrame, qreq)
+        for frame in frames:
+            self.connectSignals( frame )
 
-        try: # Short Sale buttons (if present)
-            self.SH1x_1.clicked.connect(lambda : self.accumulate(self.T_1, int(self.multiplier_1.text()), self.qty_1, type='SHORT'))
-            self.SH1x_2.clicked.connect(lambda : self.accumulate(self.T_2, int(self.multiplier_2.text()), self.qty_2, type='SHORT'))
-            self.SH1x_3.clicked.connect(lambda : self.accumulate(self.T_3, int(self.multiplier_3.text()), self.qty_3, type='SHORT'))
-            #
-            self.SH2x_1.clicked.connect(lambda : self.accumulate(self.T_1, int(self.multiplier_1.text())*2, self.qty_1, type='SHORT'))
-            self.SH2x_2.clicked.connect(lambda : self.accumulate(self.T_2, int(self.multiplier_2.text())*2, self.qty_2, type='SHORT'))
-            self.SH2x_3.clicked.connect(lambda : self.accumulate(self.T_3, int(self.multiplier_3.text())*2, self.qty_3, type='SHORT'))
-            #
-            self.BCa_1.clicked.connect(lambda : self.accumulate(self.T_1, -int(self.qty_1.text()), self.qty_1, type='SHORT' ))
-            self.BCa_2.clicked.connect(lambda : self.accumulate(self.T_2, -int(self.qty_2.text()), self.qty_2, type='SHORT' ))
-            self.BCa_3.clicked.connect(lambda : self.accumulate(self.T_3, -int(self.qty_3.text()), self.qty_3, type='SHORT' ))
-            #
-            self.BCh_1.clicked.connect(lambda : self.accumulate(self.T_1, -int(self.qty_1.text())/2, self.qty_1, type='SHORT' ))
-            self.BCh_2.clicked.connect(lambda : self.accumulate(self.T_2, -int(self.qty_2.text())/2, self.qty_2, type='SHORT' ))
-            self.BCh_3.clicked.connect(lambda : self.accumulate(self.T_3, -int(self.qty_3.text())/2, self.qty_3, type='SHORT' ))
+
+    def connectSignals( self, frame ):
+        suffix     = frame.objectName()[-1]
+        getattr( self, 'qty_'+suffix ).setText('0')   # Not a connect, but since we're dealing with this frame anyway...
+        ticker     = getattr( self, 'T_'+suffix )
+        header     = getattr( self, 'ticker_'+suffix )
+        try: multiplier = getattr( self, 'multiplier_'+suffix )
+        except AttributeError: pass
+        quantity   = getattr( self, 'qty_'+suffix )
+        try: price = getattr( self, 'price_'+suffix )
+        except AttributeError: pass
+        try: loss  = getattr( self, 'loss_'+suffix )
+        except AttributeError: pass
+        #
+        ticker.textChanged.connect(lambda: self.setTicker( ticker.text(), header, multiplier))
+        try:
+            buy = getattr( self, 'Buy_'+suffix )
+            buy.clicked.connect( lambda: self.buy( ticker, quantity ) )
         except AttributeError:
-            print "no short buttons"
+            pass
+        try:
+            sell = getattr( self, 'Sell_'+suffix )
+            sell.clicked.connect( lambda: self.sell( ticker, quantity ) )
+        except AttributeError:
+            pass
+        try:
+            limit = getattr( self, 'SLimit_'+suffix )
+            limit.clicked.connect( lambda: self.slimit( ticker, quantity, price ) )
+        except AttributeError:
+            pass
+        try:
+            stoploss = getattr( self, 'SLimit_'+suffix )
+            stoploss.clicked.connect( lambda: self.stoploss( ticker, quantity, loss ) )
+        except AttributeError:
+            pass
+        try:
+            b1x = getattr( self, 'B1K_'+suffix )
+            b1x.clicked.connect(lambda: self.accumulate(ticker, multiplier.text(), quantity))
+        except AttributeError:
+            pass
+        try:
+            b2x = getattr( self, 'B2K_'+suffix )
+            b2x.clicked.connect(lambda: self.accumulate(ticker, int(multiplier.text())*2, quantity))
+        except AttributeError:
+            pass
+        try:
+            sAll = getattr( self, 'SAll_'+suffix )
+            sAll.clicked.connect(lambda: self.accumulate(ticker, -int(quantity.text()), quantity))
+        except AttributeError:
+            pass
+        try:
+            sHalf = getattr( self, 'SHalf_'+suffix )
+            sHalf.clicked.connect(lambda: self.accumulate(ticker, -int(quantity.text())/2, quantity))
+        except AttributeError:
+            pass
+        #
+        try:
+            ss1x = getattr( self, 'SH1x_'+suffix )
+            ss1x.clicked.connect(lambda: self.accumulate(ticker, multiplier.text(), quantity, type='SHORT'))
+        except AttributeError:
+            pass
+        try:
+            ss2x = getattr( self, 'SH2x_'+suffix )
+            ss2x.clicked.connect(lambda: self.accumulate(ticker, int(multiplier.text())*2, quantity, type='SHORT'))
+        except AttributeError:
+            pass
+        try:
+            bcA = getattr( self, 'BCa_'+suffix )
+            bcA.clicked.connect(lambda: self.accumulate(ticker, -int(quantity.text()), quantity, type='SHORT'))
+        except AttributeError:
+            pass
+        try:
+            bcHalf = getattr( self, 'BCh_'+suffix )
+            bcHalf.clicked.connect(lambda: self.accumulate(ticker, -int(quantity.text())/2, quantity, type='SHORT'))
+        except AttributeError:
             pass
 
 
@@ -114,11 +119,14 @@ class EtradeApp(QtGui.QMainWindow, ashkeys.Ui_MainWindow):
         if len(ticker) and ticker[-1] == ' ':
             ticker = ticker[:-1]
             quote = etradepy.getQuote( ticker )
-            print quote
-            price = quote['quoteResponse']['quoteData']['all']['lastTrade']
-            quantity = TRADESIZE / price
-            quantity = int(math.ceil(quantity / 10.0)) * 10
-            multiplier.setText( str(quantity) )
+            try:
+                price = quote['quoteResponse']['quoteData']['all']['lastTrade']
+                quantity = TRADESIZE / price
+                quantity = int(math.ceil(quantity / 10.0)) * 10
+                multiplier.setText( str(quantity) )
+            except KeyError:
+                self.statusBar.showMessage( quote['quoteResponse']['quoteData']['errorMessage'] )
+                print quote
         tickerLabel.setText( ticker )
 
 
@@ -182,7 +190,7 @@ class EtradeApp(QtGui.QMainWindow, ashkeys.Ui_MainWindow):
     def report(self, response):
         print response
         if 'Error' in response:
-            print vars(response)
+            print type(response)
             self.status_msg( response['Error']['message'] )
             return False
         else:
@@ -193,6 +201,8 @@ class EtradeApp(QtGui.QMainWindow, ashkeys.Ui_MainWindow):
         self.statusBar.showMessage( message )
         self.cleartimer.start(9000)
 
+
+    # TODO - attributes are grouped by basic and advanced control sets, could make finer granularity to allow them to be mixed
     def arm(self, int):
         state = self.Arm.isChecked()
         w = self.centralwidget
@@ -203,66 +213,42 @@ class EtradeApp(QtGui.QMainWindow, ashkeys.Ui_MainWindow):
             p.setColor(w.backgroundRole(),QtGui.QColor(73, 143, 255))
         w.setPalette(p)
 
-        try:
-            #
-            self.Buy_1.setEnabled(state)
-            self.Sell_1.setEnabled(state)
-            self.SLimit_1.setEnabled(state)
-            self.SLoss_1.setEnabled(state)
-            #
-            self.Buy_2.setEnabled(state)
-            self.Sell_2.setEnabled(state)
-            self.SLimit_2.setEnabled(state)
-            self.SLoss_2.setEnabled(state)
-            #
-            self.Buy_3.setEnabled(state)
-            self.Sell_3.setEnabled(state)
-            self.SLimit_3.setEnabled(state)
-            self.SLoss_3.setEnabled(state)
-            #
-            self.Buy_4.setEnabled(state)
-            self.Sell_4.setEnabled(state)
-            self.SLimit_4.setEnabled(state)
-            self.SLoss_4.setEnabled(state)
-            #
-            self.Buy_5.setEnabled(state)
-            self.Sell_5.setEnabled(state)
-            self.SLimit_5.setEnabled(state)
-            self.SLoss_5.setEnabled(state)
-        except AttributeError:
-            #
-            self.B1K_1.setEnabled(state)
-            self.B2K_1.setEnabled(state)
-            self.SAll_1.setEnabled(state)
-            self.SHalf_1.setEnabled(state)
-            #
-            self.B1K_2.setEnabled(state)
-            self.B2K_2.setEnabled(state)
-            self.SAll_2.setEnabled(state)
-            self.SHalf_2.setEnabled(state)
-            #
-            self.B1K_3.setEnabled(state)
-            self.B2K_3.setEnabled(state)
-            self.SAll_3.setEnabled(state)
-            self.SHalf_3.setEnabled(state)
-        try:
-            self.SH1x_1.setEnabled(state)
-            self.SH2x_1.setEnabled(state)
-            self.BCa_1.setEnabled(state)
-            self.BCh_1.setEnabled(state)
-            #
-            self.SH1x_2.setEnabled(state)
-            self.SH2x_2.setEnabled(state)
-            self.BCa_2.setEnabled(state)
-            self.BCh_2.setEnabled(state)
-            #
-            self.SH1x_3.setEnabled(state)
-            self.SH2x_3.setEnabled(state)
-            self.BCa_3.setEnabled(state)
-            self.BCh_3.setEnabled(state)
-        except AttributeError:
-            pass
+        qreq = QRegExp(r'frame.\d')
+        frames = self.findChildren(QtGui.QFrame, qreq)
+        for frame in frames:
+            suffix = frame.objectName()[-1]
+            try:
+                #
+                w = getattr( self, 'Buy_'+suffix )
+                w.setEnabled(state)
+                w = getattr( self, 'Sell_'+suffix )
+                w.setEnabled(state)
+                w = getattr( self, 'SLimit_'+suffix )
+                w.setEnabled(state)
+                w = getattr( self, 'SLoss_'+suffix )
+                w.setEnabled(state)
+            except AttributeError:
+                w = getattr( self, 'B1K_'+suffix )
+                w.setEnabled(state)
+                w = getattr( self, 'B2K_'+suffix )
+                w.setEnabled(state)
+                w = getattr( self, 'SAll_'+suffix )
+                w.setEnabled(state)
+                w = getattr( self, 'SHalf_'+suffix )
+                w.setEnabled(state)
+            try:
+                w = getattr( self, 'SH1x_'+suffix )
+                w.setEnabled(state)
+                w = getattr( self, 'SH2x_'+suffix )
+                w.setEnabled(state)
+                w = getattr( self, 'BCa_'+suffix )
+                w.setEnabled(state)
+                w = getattr( self, 'BCh_'+suffix )
+                w.setEnabled(state)
+            except AttributeError:
+                pass
 
+    # TODO - use frame discovery method
     def saveState( self ):
         try:
             data = {
@@ -275,23 +261,19 @@ class EtradeApp(QtGui.QMainWindow, ashkeys.Ui_MainWindow):
                     'q2': self.qty_2.text(),
                     'q3': self.qty_3.text(),
                     'q4': self.qty_4.text(),
-                    'q5': self.qty_5.text()
-                    }
-        except AttributeError:
-            data = {
-                    't1': self.T_1.text(),
-                    't2': self.T_2.text(),
-                    't3': self.T_3.text(),
-                    'q1': self.qty_1.text(),
-                    'q2': self.qty_2.text(),
-                    'q3': self.qty_3.text(),
+                    'q5': self.qty_5.text(),
                     'm1': self.multiplier_1.text(),
                     'm2': self.multiplier_2.text(),
-                    'm3': self.multiplier_3.text()
+                    'm3': self.multiplier_3.text(),
+                    'm4': self.multiplier_4.text(),
+                    'm5': self.multiplier_5.text()
                     }
-        with open('state.txt', 'w') as outfile:
-            json.dump( data, outfile )
+            with open('state.txt', 'w') as outfile:
+                json.dump( data, outfile )
+        except AttributeError:
+            pass
 
+    # TODO - use frame discovery method
     def restoreState( self ):
         try:
             with open('state.txt','r') as infile:
@@ -309,16 +291,13 @@ class EtradeApp(QtGui.QMainWindow, ashkeys.Ui_MainWindow):
             self.qty_3.setText( data['q3'] )
             self.qty_4.setText( data['q4'] )
             self.qty_5.setText( data['q5'] )
-        except AttributeError:
-            self.T_1.setText( data['t1'] )
-            self.T_2.setText( data['t2'] )
-            self.T_3.setText( data['t3'] )
-            self.qty_1.setText( data['q1'] )
-            self.qty_2.setText( data['q2'] )
-            self.qty_3.setText( data['q3'] )
             self.multiplier_1.setText( data['m1'] )
             self.multiplier_2.setText( data['m2'] )
             self.multiplier_3.setText( data['m3'] )
+            self.multiplier_4.setText( data['m4'] )
+            self.multiplier_5.setText( data['m5'] )
+        except AttributeError:
+            pass
 
 
 

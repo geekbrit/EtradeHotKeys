@@ -445,7 +445,7 @@ def buyToCoverNow(AcctNumber, symbol, quantity ):
 def sellShortNow(AcctNumber, symbol, quantity ):
     # linking the id to the current time/date minimizes risk of double-clicking orders
     # MAY need to add minimum time interval for same ticker (3s?)
-    clientOrderId = datetime.datetime.now().strftime('%y%m%d%H%M')+symbol
+    clientOrderId = datetime.datetime.now().strftime('%y%m%d%H%M%S')+symbol
     EquityOrderRequest = {
        "accountId": AcctNumber,
        "symbol": symbol,
@@ -471,7 +471,7 @@ def sellShortNow(AcctNumber, symbol, quantity ):
 def buyNow(AcctNumber, symbol, quantity ):
     # linking the id to the current time/date minimizes risk of double-clicking orders
     # MAY need to add minimum time interval for same ticker (3s?)
-    clientOrderId = datetime.datetime.now().strftime('%y%m%d%H%M')+symbol
+    clientOrderId = datetime.datetime.now().strftime('%y%m%d%H%M%S')+symbol
     EquityOrderRequest = {
        "accountId": AcctNumber,
        "symbol": symbol,
@@ -497,7 +497,7 @@ def buyNow(AcctNumber, symbol, quantity ):
 def sellNow(AcctNumber, symbol, quantity ):
     # linking the id to the current time/date minimizes risk of double-clicking orders
     # MAY need to add minimum time interval for same ticker (3s?)
-    clientOrderId = datetime.datetime.now().strftime('%y%m%d%H%M')+symbol
+    clientOrderId = datetime.datetime.now().strftime('%y%m%d%H%M%S')+symbol
     EquityOrderRequest = {
        "accountId": AcctNumber,
        "symbol": symbol,
@@ -523,7 +523,7 @@ def sellNow(AcctNumber, symbol, quantity ):
 def sellLimitNow(AcctNumber, symbol, quantity, limit ):
     # linking the id to the current time/date minimizes risk of double-clicking orders
     # MAY need to add minimum time interval for same ticker (3s?)
-    clientOrderId = datetime.datetime.now().strftime('%y%m%d%H%M')+symbol
+    clientOrderId = datetime.datetime.now().strftime('%y%m%d%H%M%S')+symbol
     EquityOrderRequest = {
        "accountId": AcctNumber,
        "symbol": symbol,
@@ -550,7 +550,7 @@ def sellLimitNow(AcctNumber, symbol, quantity, limit ):
 def sellStopNow(AcctNumber, symbol, quantity, limit ):
     # linking the id to the current time/date minimizes risk of double-clicking orders
     # MAY need to add minimum time interval for same ticker (3s?)
-    clientOrderId = datetime.datetime.now().strftime('%y%m%d%H%M')+symbol
+    clientOrderId = datetime.datetime.now().strftime('%y%m%d%H%M%S')+symbol
     EquityOrderRequest = {
        "accountId": AcctNumber,
        "symbol": symbol,
@@ -590,9 +590,8 @@ def placeEquityOrder(liveParams, is_retry=False):
     print 'trying to renew token...'
     # try renewing access token first,
     renewAccessToken()
-    placeEquityOrder(liveParams, is_retry=True)
-  else:
-    return resp
+    resp = placeEquityOrder(liveParams, is_retry=True)
+  return resp
 
 def previewEquityOrderChange(AcctNumber, orderNum, quantity, priceType,
                         clientOrderId = None,
