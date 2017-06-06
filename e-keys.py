@@ -10,12 +10,13 @@ import json
 #import hkeys
 #import ahkeys
 #import ashkeys
-import ashkeys5
+#import ashkeys5
+import ashkeys6
 import etradepy
 
 from etrade_settings import TRADESIZE
 
-class EtradeApp(QtGui.QMainWindow, ashkeys5.Ui_MainWindow):
+class EtradeApp(QtGui.QMainWindow, ashkeys6.Ui_MainWindow):
     def __init__(self, parent=None):
         super(EtradeApp, self).__init__(parent)
         self.setupUi(self)

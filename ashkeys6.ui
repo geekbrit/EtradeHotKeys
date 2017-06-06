@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>852</width>
-    <height>432</height>
+    <width>950</width>
+    <height>388</height>
    </rect>
   </property>
   <property name="palette">
@@ -438,10 +438,10 @@
    <widget class="QWidget" name="horizontalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>60</x>
+      <x>9</x>
       <y>9</y>
-      <width>781</width>
-      <height>391</height>
+      <width>931</width>
+      <height>351</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout">
@@ -453,20 +453,20 @@
        <property name="frameShadow">
         <enum>QFrame::Raised</enum>
        </property>
-       <widget class="QPushButton" name="Buy_1">
+       <widget class="QPushButton" name="B1K_1">
         <property name="enabled">
          <bool>false</bool>
         </property>
         <property name="geometry">
          <rect>
-          <x>30</x>
-          <y>50</y>
-          <width>100</width>
+          <x>50</x>
+          <y>130</y>
+          <width>41</width>
           <height>32</height>
          </rect>
         </property>
         <property name="text">
-         <string>Buy</string>
+         <string>B-1x</string>
         </property>
        </widget>
        <widget class="QLabel" name="ticker_1">
@@ -474,7 +474,7 @@
          <rect>
           <x>20</x>
           <y>0</y>
-          <width>121</width>
+          <width>141</width>
           <height>41</height>
          </rect>
         </property>
@@ -486,7 +486,7 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>31</pointsize>
+          <pointsize>28</pointsize>
          </font>
         </property>
         <property name="text">
@@ -496,24 +496,11 @@
          <set>Qt::AlignCenter</set>
         </property>
        </widget>
-       <widget class="QLineEdit" name="price_1">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>130</y>
-          <width>100</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="toolTip">
-         <string extracomment="price">Price</string>
-        </property>
-       </widget>
        <widget class="QLineEdit" name="qty_1">
         <property name="geometry">
          <rect>
-          <x>30</x>
-          <y>90</y>
+          <x>50</x>
+          <y>50</y>
           <width>100</width>
           <height>31</height>
          </rect>
@@ -937,78 +924,209 @@
          <string extracomment="quantity">Quantity</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="SLimit_1">
+       <widget class="QPushButton" name="SAll_1">
         <property name="enabled">
          <bool>false</bool>
         </property>
         <property name="geometry">
          <rect>
-          <x>30</x>
-          <y>170</y>
-          <width>100</width>
-          <height>32</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Sell Limit</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="Sell_1">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>290</y>
-          <width>100</width>
-          <height>32</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Sell</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="SLoss_1">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="geometry">
-         <rect>
-          <x>30</x>
+          <x>50</x>
           <y>210</y>
-          <width>100</width>
+          <width>41</width>
           <height>32</height>
          </rect>
         </property>
         <property name="text">
-         <string>Stop loss</string>
+         <string>S-a</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="loss_1">
+       <widget class="QPushButton" name="SHalf_1">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="geometry">
          <rect>
-          <x>30</x>
-          <y>250</y>
-          <width>100</width>
-          <height>31</height>
+          <x>50</x>
+          <y>170</y>
+          <width>41</width>
+          <height>32</height>
          </rect>
         </property>
-        <property name="toolTip">
-         <string extracomment="stop loss">Stop loss $</string>
+        <property name="text">
+         <string>S-h</string>
         </property>
        </widget>
        <widget class="QLineEdit" name="T_1">
         <property name="geometry">
          <rect>
-          <x>30</x>
-          <y>330</y>
+          <x>50</x>
+          <y>290</y>
           <width>100</width>
           <height>31</height>
          </rect>
         </property>
         <property name="toolTip">
          <string extracomment="ticker">Ticker</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>60</y>
+          <width>31</width>
+          <height>18</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Qty</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_4">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>300</y>
+          <width>41</width>
+          <height>18</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Sym</string>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="Arm">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>21</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="autoFillBackground">
+         <bool>true</bool>
+        </property>
+        <property name="text">
+         <string>CheckBox</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="B2K_1">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>50</x>
+          <y>90</y>
+          <width>41</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>B-2x</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="multiplier_1">
+        <property name="geometry">
+         <rect>
+          <x>50</x>
+          <y>250</y>
+          <width>100</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="toolTip">
+         <string extracomment="ticker">Ticker</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_5">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>260</y>
+          <width>41</width>
+          <height>18</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Xfact</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="SH2x_1">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>110</x>
+          <y>90</y>
+          <width>41</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(80,40,40)</string>
+        </property>
+        <property name="text">
+         <string>SH2x</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="SH1x_1">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>110</x>
+          <y>130</y>
+          <width>41</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(80,40,40)</string>
+        </property>
+        <property name="text">
+         <string>SH1x</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="BCh_1">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>110</x>
+          <y>170</y>
+          <width>41</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(80,40,40)</string>
+        </property>
+        <property name="text">
+         <string>BC-h</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="BCa_1">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>110</x>
+          <y>210</y>
+          <width>41</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(80,40,40)</string>
+        </property>
+        <property name="text">
+         <string>BC-a</string>
         </property>
        </widget>
       </widget>
@@ -1021,26 +1139,10 @@
        <property name="frameShadow">
         <enum>QFrame::Raised</enum>
        </property>
-       <widget class="QPushButton" name="Buy_2">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>50</y>
-          <width>100</width>
-          <height>32</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Buy</string>
-        </property>
-       </widget>
        <widget class="QLabel" name="ticker_2">
         <property name="geometry">
          <rect>
-          <x>10</x>
+          <x>20</x>
           <y>0</y>
           <width>141</width>
           <height>41</height>
@@ -1054,7 +1156,7 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>31</pointsize>
+          <pointsize>28</pointsize>
          </font>
         </property>
         <property name="text">
@@ -1064,21 +1166,11 @@
          <set>Qt::AlignCenter</set>
         </property>
        </widget>
-       <widget class="QLineEdit" name="price_2">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>130</y>
-          <width>100</width>
-          <height>31</height>
-         </rect>
-        </property>
-       </widget>
        <widget class="QLineEdit" name="qty_2">
         <property name="geometry">
          <rect>
-          <x>30</x>
-          <y>90</y>
+          <x>40</x>
+          <y>50</y>
           <width>100</width>
           <height>31</height>
          </rect>
@@ -1121,72 +1213,167 @@
          </palette>
         </property>
        </widget>
-       <widget class="QPushButton" name="SLimit_2">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
+       <widget class="QLineEdit" name="T_2">
         <property name="geometry">
          <rect>
-          <x>30</x>
-          <y>170</y>
-          <width>100</width>
-          <height>32</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Sell Limit</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="Sell_2">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="geometry">
-         <rect>
-          <x>30</x>
+          <x>40</x>
           <y>290</y>
           <width>100</width>
-          <height>32</height>
+          <height>31</height>
          </rect>
         </property>
-        <property name="text">
-         <string>Sell</string>
-        </property>
        </widget>
-       <widget class="QPushButton" name="SLoss_2">
+       <widget class="QPushButton" name="B2K_2">
         <property name="enabled">
          <bool>false</bool>
         </property>
         <property name="geometry">
          <rect>
-          <x>30</x>
-          <y>210</y>
-          <width>100</width>
+          <x>40</x>
+          <y>90</y>
+          <width>41</width>
           <height>32</height>
          </rect>
         </property>
         <property name="text">
-         <string>Stop loss</string>
+         <string>B-2x</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="loss_2">
+       <widget class="QPushButton" name="B1K_2">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="geometry">
          <rect>
-          <x>30</x>
+          <x>40</x>
+          <y>130</y>
+          <width>41</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>B-1x</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="SHalf_2">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>40</x>
+          <y>170</y>
+          <width>41</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>S-h</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="SAll_2">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>40</x>
+          <y>210</y>
+          <width>41</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>S-a</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="multiplier_2">
+        <property name="geometry">
+         <rect>
+          <x>40</x>
           <y>250</y>
           <width>100</width>
           <height>31</height>
          </rect>
         </property>
+        <property name="toolTip">
+         <string extracomment="ticker">Ticker</string>
+        </property>
        </widget>
-       <widget class="QLineEdit" name="T_2">
+       <widget class="QPushButton" name="SH2x_2">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="geometry">
          <rect>
-          <x>30</x>
-          <y>330</y>
-          <width>100</width>
-          <height>31</height>
+          <x>100</x>
+          <y>90</y>
+          <width>41</width>
+          <height>32</height>
          </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(80,40,40)</string>
+        </property>
+        <property name="text">
+         <string>SH2x</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="SH1x_2">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>100</x>
+          <y>130</y>
+          <width>41</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(80,40,40)</string>
+        </property>
+        <property name="text">
+         <string>SH1x</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="BCh_2">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>100</x>
+          <y>170</y>
+          <width>41</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(80,40,40)</string>
+        </property>
+        <property name="text">
+         <string>BC-h</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="BCa_2">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>100</x>
+          <y>210</y>
+          <width>41</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(80,40,40)</string>
+        </property>
+        <property name="text">
+         <string>BC-a</string>
         </property>
        </widget>
       </widget>
@@ -1199,22 +1386,6 @@
        <property name="frameShadow">
         <enum>QFrame::Raised</enum>
        </property>
-       <widget class="QPushButton" name="Buy_3">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>50</y>
-          <width>100</width>
-          <height>32</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Buy</string>
-        </property>
-       </widget>
        <widget class="QLabel" name="ticker_3">
         <property name="geometry">
          <rect>
@@ -1232,7 +1403,7 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>31</pointsize>
+          <pointsize>28</pointsize>
          </font>
         </property>
         <property name="text">
@@ -1242,21 +1413,11 @@
          <set>Qt::AlignCenter</set>
         </property>
        </widget>
-       <widget class="QLineEdit" name="price_3">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>130</y>
-          <width>100</width>
-          <height>31</height>
-         </rect>
-        </property>
-       </widget>
        <widget class="QLineEdit" name="qty_3">
         <property name="geometry">
          <rect>
           <x>30</x>
-          <y>90</y>
+          <y>50</y>
           <width>100</width>
           <height>31</height>
          </rect>
@@ -1299,7 +1460,49 @@
          </palette>
         </property>
        </widget>
-       <widget class="QPushButton" name="SLimit_3">
+       <widget class="QLineEdit" name="T_3">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>290</y>
+          <width>100</width>
+          <height>31</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="B2K_3">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>90</y>
+          <width>41</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>B-2x</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="B1K_3">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>130</y>
+          <width>41</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>B-1x</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="SHalf_3">
         <property name="enabled">
          <bool>false</bool>
         </property>
@@ -1307,31 +1510,15 @@
          <rect>
           <x>30</x>
           <y>170</y>
-          <width>100</width>
+          <width>41</width>
           <height>32</height>
          </rect>
         </property>
         <property name="text">
-         <string>Sell Limit</string>
+         <string>S-h</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="Sell_3">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>290</y>
-          <width>100</width>
-          <height>32</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Sell</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="SLoss_3">
+       <widget class="QPushButton" name="SAll_3">
         <property name="enabled">
          <bool>false</bool>
         </property>
@@ -1339,15 +1526,15 @@
          <rect>
           <x>30</x>
           <y>210</y>
-          <width>100</width>
+          <width>41</width>
           <height>32</height>
          </rect>
         </property>
         <property name="text">
-         <string>Stop loss</string>
+         <string>S-a</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="loss_3">
+       <widget class="QLineEdit" name="multiplier_3">
         <property name="geometry">
          <rect>
           <x>30</x>
@@ -1356,15 +1543,84 @@
           <height>31</height>
          </rect>
         </property>
+        <property name="toolTip">
+         <string extracomment="ticker">Ticker</string>
+        </property>
        </widget>
-       <widget class="QLineEdit" name="T_3">
+       <widget class="QPushButton" name="SH2x_3">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="geometry">
          <rect>
-          <x>30</x>
-          <y>330</y>
-          <width>100</width>
-          <height>31</height>
+          <x>90</x>
+          <y>90</y>
+          <width>41</width>
+          <height>32</height>
          </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(80,40,40)</string>
+        </property>
+        <property name="text">
+         <string>SH2x</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="SH1x_3">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>90</x>
+          <y>130</y>
+          <width>41</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(80,40,40)</string>
+        </property>
+        <property name="text">
+         <string>SH1x</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="BCh_3">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>90</x>
+          <y>170</y>
+          <width>41</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(80,40,40)</string>
+        </property>
+        <property name="text">
+         <string>BC-h</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="BCa_3">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>90</x>
+          <y>210</y>
+          <width>41</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(80,40,40)</string>
+        </property>
+        <property name="text">
+         <string>BC-a</string>
         </property>
        </widget>
       </widget>
@@ -1377,54 +1633,24 @@
        <property name="frameShadow">
         <enum>QFrame::Raised</enum>
        </property>
-       <widget class="QPushButton" name="Buy_4">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
+       <widget class="QLineEdit" name="multiplier_4">
         <property name="geometry">
          <rect>
-          <x>30</x>
-          <y>50</y>
+          <x>20</x>
+          <y>250</y>
           <width>100</width>
-          <height>32</height>
+          <height>31</height>
          </rect>
         </property>
-        <property name="text">
-         <string>Buy</string>
+        <property name="toolTip">
+         <string extracomment="ticker">Ticker</string>
         </property>
        </widget>
-       <widget class="QLabel" name="ticker_4">
+       <widget class="QLineEdit" name="T_4">
         <property name="geometry">
          <rect>
-          <x>10</x>
-          <y>0</y>
-          <width>141</width>
-          <height>41</height>
-         </rect>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>31</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>***</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="price_4">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>130</y>
+          <x>20</x>
+          <y>290</y>
           <width>100</width>
           <height>31</height>
          </rect>
@@ -1433,8 +1659,8 @@
        <widget class="QLineEdit" name="qty_4">
         <property name="geometry">
          <rect>
-          <x>30</x>
-          <y>90</y>
+          <x>20</x>
+          <y>50</y>
           <width>100</width>
           <height>31</height>
          </rect>
@@ -1477,72 +1703,171 @@
          </palette>
         </property>
        </widget>
-       <widget class="QPushButton" name="SLimit_4">
+       <widget class="QPushButton" name="SH1x_4">
         <property name="enabled">
          <bool>false</bool>
         </property>
         <property name="geometry">
          <rect>
-          <x>30</x>
+          <x>80</x>
+          <y>130</y>
+          <width>41</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(80,40,40)</string>
+        </property>
+        <property name="text">
+         <string>SH1x</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="SHalf_4">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>20</x>
           <y>170</y>
-          <width>100</width>
+          <width>41</width>
           <height>32</height>
          </rect>
         </property>
         <property name="text">
-         <string>Sell Limit</string>
+         <string>S-h</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="Sell_4">
+       <widget class="QLabel" name="ticker_4">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>141</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>28</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>***</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="B1K_4">
         <property name="enabled">
          <bool>false</bool>
         </property>
         <property name="geometry">
          <rect>
-          <x>30</x>
-          <y>290</y>
-          <width>100</width>
+          <x>20</x>
+          <y>130</y>
+          <width>41</width>
           <height>32</height>
          </rect>
         </property>
         <property name="text">
-         <string>Sell</string>
+         <string>B-1x</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="SLoss_4">
+       <widget class="QPushButton" name="SAll_4">
         <property name="enabled">
          <bool>false</bool>
         </property>
         <property name="geometry">
          <rect>
-          <x>30</x>
+          <x>20</x>
           <y>210</y>
-          <width>100</width>
+          <width>41</width>
           <height>32</height>
          </rect>
         </property>
         <property name="text">
-         <string>Stop loss</string>
+         <string>S-a</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="loss_4">
+       <widget class="QPushButton" name="B2K_4">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="geometry">
          <rect>
-          <x>30</x>
-          <y>250</y>
-          <width>100</width>
-          <height>31</height>
+          <x>20</x>
+          <y>90</y>
+          <width>41</width>
+          <height>32</height>
          </rect>
         </property>
+        <property name="text">
+         <string>B-2x</string>
+        </property>
        </widget>
-       <widget class="QLineEdit" name="T_4">
+       <widget class="QPushButton" name="BCh_4">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="geometry">
          <rect>
-          <x>30</x>
-          <y>330</y>
-          <width>100</width>
-          <height>31</height>
+          <x>80</x>
+          <y>170</y>
+          <width>41</width>
+          <height>32</height>
          </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(80,40,40)</string>
+        </property>
+        <property name="text">
+         <string>BC-h</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="SH2x_4">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>90</y>
+          <width>41</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(80,40,40)</string>
+        </property>
+        <property name="text">
+         <string>SH2x</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="BCa_4">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>210</y>
+          <width>41</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(80,40,40)</string>
+        </property>
+        <property name="text">
+         <string>BC-a</string>
         </property>
        </widget>
       </widget>
@@ -1555,54 +1880,24 @@
        <property name="frameShadow">
         <enum>QFrame::Raised</enum>
        </property>
-       <widget class="QPushButton" name="Buy_5">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
+       <widget class="QLineEdit" name="multiplier_5">
         <property name="geometry">
          <rect>
-          <x>30</x>
-          <y>50</y>
+          <x>20</x>
+          <y>250</y>
           <width>100</width>
-          <height>32</height>
+          <height>31</height>
          </rect>
         </property>
-        <property name="text">
-         <string>Buy</string>
+        <property name="toolTip">
+         <string extracomment="ticker">Ticker</string>
         </property>
        </widget>
-       <widget class="QLabel" name="ticker_5">
+       <widget class="QLineEdit" name="T_5">
         <property name="geometry">
          <rect>
-          <x>10</x>
-          <y>0</y>
-          <width>141</width>
-          <height>41</height>
-         </rect>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>31</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>***</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="price_5">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>130</y>
+          <x>20</x>
+          <y>290</y>
           <width>100</width>
           <height>31</height>
          </rect>
@@ -1611,8 +1906,8 @@
        <widget class="QLineEdit" name="qty_5">
         <property name="geometry">
          <rect>
-          <x>30</x>
-          <y>90</y>
+          <x>20</x>
+          <y>50</y>
           <width>100</width>
           <height>31</height>
          </rect>
@@ -1655,145 +1950,423 @@
          </palette>
         </property>
        </widget>
-       <widget class="QPushButton" name="SLimit_5">
+       <widget class="QPushButton" name="SH1x_5">
         <property name="enabled">
          <bool>false</bool>
         </property>
         <property name="geometry">
          <rect>
-          <x>30</x>
+          <x>80</x>
+          <y>130</y>
+          <width>41</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(80,40,40)</string>
+        </property>
+        <property name="text">
+         <string>SH1x</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="SHalf_5">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>20</x>
           <y>170</y>
-          <width>100</width>
+          <width>41</width>
           <height>32</height>
          </rect>
         </property>
         <property name="text">
-         <string>Sell Limit</string>
+         <string>S-h</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="Sell_5">
+       <widget class="QLabel" name="ticker_5">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>141</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>28</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>***</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="B1K_5">
         <property name="enabled">
          <bool>false</bool>
         </property>
         <property name="geometry">
          <rect>
-          <x>30</x>
-          <y>290</y>
-          <width>100</width>
+          <x>20</x>
+          <y>130</y>
+          <width>41</width>
           <height>32</height>
          </rect>
         </property>
         <property name="text">
-         <string>Sell</string>
+         <string>B-1x</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="SLoss_5">
+       <widget class="QPushButton" name="SAll_5">
         <property name="enabled">
          <bool>false</bool>
         </property>
         <property name="geometry">
          <rect>
-          <x>30</x>
+          <x>20</x>
           <y>210</y>
-          <width>100</width>
+          <width>41</width>
           <height>32</height>
          </rect>
         </property>
         <property name="text">
-         <string>Stop loss</string>
+         <string>S-a</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="loss_5">
+       <widget class="QPushButton" name="B2K_5">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="geometry">
          <rect>
-          <x>30</x>
+          <x>20</x>
+          <y>90</y>
+          <width>41</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>B-2x</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="BCh_5">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>170</y>
+          <width>41</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(80,40,40)</string>
+        </property>
+        <property name="text">
+         <string>BC-h</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="SH2x_5">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>90</y>
+          <width>41</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(80,40,40)</string>
+        </property>
+        <property name="text">
+         <string>SH2x</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="BCa_5">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>210</y>
+          <width>41</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(80,40,40)</string>
+        </property>
+        <property name="text">
+         <string>BC-a</string>
+        </property>
+       </widget>
+      </widget>
+     </item>
+     <item>
+      <widget class="QFrame" name="frame_6">
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <widget class="QLineEdit" name="multiplier_6">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
           <y>250</y>
           <width>100</width>
           <height>31</height>
          </rect>
         </property>
+        <property name="toolTip">
+         <string extracomment="ticker">Ticker</string>
+        </property>
        </widget>
-       <widget class="QLineEdit" name="T_5">
+       <widget class="QLineEdit" name="T_6">
         <property name="geometry">
          <rect>
-          <x>30</x>
-          <y>330</y>
+          <x>20</x>
+          <y>290</y>
           <width>100</width>
           <height>31</height>
          </rect>
         </property>
        </widget>
+       <widget class="QLineEdit" name="qty_6">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>50</y>
+          <width>100</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="palette">
+         <palette>
+          <active>
+           <colorrole role="Base">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>255</red>
+              <green>255</green>
+              <blue>127</blue>
+             </color>
+            </brush>
+           </colorrole>
+          </active>
+          <inactive>
+           <colorrole role="Base">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>255</red>
+              <green>255</green>
+              <blue>127</blue>
+             </color>
+            </brush>
+           </colorrole>
+          </inactive>
+          <disabled>
+           <colorrole role="Base">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>73</red>
+              <green>143</green>
+              <blue>255</blue>
+             </color>
+            </brush>
+           </colorrole>
+          </disabled>
+         </palette>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="SH1x_6">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>130</y>
+          <width>41</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(80,40,40)</string>
+        </property>
+        <property name="text">
+         <string>SH1x</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="SHalf_6">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>170</y>
+          <width>41</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>S-h</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="ticker_6">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>141</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>28</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>***</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="B1K_6">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>130</y>
+          <width>41</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>B-1x</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="SAll_6">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>210</y>
+          <width>41</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>S-a</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="B2K_6">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>90</y>
+          <width>41</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>B-2x</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="BCh_6">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>170</y>
+          <width>41</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(80,40,40)</string>
+        </property>
+        <property name="text">
+         <string>BC-h</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="SH2x_6">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>90</y>
+          <width>41</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(80,40,40)</string>
+        </property>
+        <property name="text">
+         <string>SH2x</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="BCa_6">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>210</y>
+          <width>41</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(80,40,40)</string>
+        </property>
+        <property name="text">
+         <string>BC-a</string>
+        </property>
+       </widget>
       </widget>
      </item>
     </layout>
-   </widget>
-   <widget class="QCheckBox" name="Arm">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>60</y>
-      <width>21</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="autoFillBackground">
-     <bool>true</bool>
-    </property>
-    <property name="text">
-     <string>CheckBox</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>110</y>
-      <width>31</width>
-      <height>18</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Qty</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_2">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>150</y>
-      <width>51</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>$Lim</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_3">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>260</y>
-      <width>41</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>$top</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_4">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>350</y>
-      <width>41</width>
-      <height>18</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Sym</string>
-    </property>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>

@@ -472,9 +472,9 @@
        <widget class="QLabel" name="ticker_1">
         <property name="geometry">
          <rect>
-          <x>40</x>
+          <x>20</x>
           <y>0</y>
-          <width>121</width>
+          <width>141</width>
           <height>41</height>
          </rect>
         </property>
@@ -486,7 +486,7 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>31</pointsize>
+          <pointsize>28</pointsize>
          </font>
         </property>
         <property name="text">
@@ -1156,7 +1156,7 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>31</pointsize>
+          <pointsize>28</pointsize>
          </font>
         </property>
         <property name="text">
@@ -1403,7 +1403,7 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>31</pointsize>
+          <pointsize>28</pointsize>
          </font>
         </property>
         <property name="text">
@@ -1755,7 +1755,7 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>31</pointsize>
+          <pointsize>28</pointsize>
          </font>
         </property>
         <property name="text">
@@ -2002,7 +2002,7 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>31</pointsize>
+          <pointsize>28</pointsize>
          </font>
         </property>
         <property name="text">
