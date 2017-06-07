@@ -17,11 +17,15 @@ This layout has long buy/sell buttons on the left of each ticker group, and shor
 
 All transaction-open operations (buy, and sell-short) are based on multiples of the Xfact value, which is calculated from a nominal order value (currently hardcoded in e-keys.py), and transaction-close operations (sell, and buy-to-close) work on either the full open quantity, or half the open quantity. The quantity that can be bought using the nominal order value is calculated **when you type a space character at the end of the ticker symbol**. This is a nasty temporary workaround to avoid multiple quote requests before the full ticker is entered.
 
+**Note:** Once you have placed a Long trade or a Short trade on a ticker, the "opposite" trading keys are disabled until you close out your position. If you close out your position by placing a sell or buy to cover through eTrade's tools, then you can manually set the "Quantity" input to zero in order to re-enable the buttons. 
+
 Currently, the layout is selected by editing the class definition for EtradeApp in e-keys.py.
 
 ## Description
 
 There is a checkbox in the leftmost column of the tool panel that globally disables or enables all of the buy and sell buttons. The buttons are disabled when the panel opens, and must be armed by clicking in the checkbox before any trades can be placed. I recommend leaving the panel disarmed at all times unless you intend to make a trade.
+
+When the panel is in "Safe" mode, the window background will be blue. When the panel is "Live", then the background will be orange. This can be modified in e-keys.py if you find the colors difficult to differentiate.
 
 This project uses a substantial amount of code from etradePythonAPI (there appear to be two separate identical projects for this on GitHub, I'm not sure whose is the original).
 
@@ -32,15 +36,7 @@ The frontend is designed using the QT4 Designer utility, then converted to pytho
 pyuic4 hkeys.ui > hkeys.py
 ```
 
-The panel as designed allows you to work with five different stocks, with inputs and buttons arranged in a column for each stock. Enter the ticker symbol in the input at the bottom of the column, do not press <return> or <tab>.
-
-This panel is primarily for day trading, so you would normally just enter the quantity in the Qty input (highlighted in yellow) and use the Buy and Sell buttons to place trades.
-
-It is also possible to place Limit Sell orders - place your target price in the $Lim inputs, and click the "Sell Limit" button to place the trade.
-
-Likewise, it is possible to place Stop loss orders, but these are the very simple "Stop on quote" orders, not the trailing stop order types, which are not available in the Etrade REST api. Place the price at which you would want the sell order to be triggered in the $top input. A sale will be triggered when the price falls to that level.
-
-This software uses the Etrade REST api to place orders, the order is then processed and executed on Etrade's servers.
+This software uses the Etrade REST api to place orders, the order is then processed on Etrade's servers and routed to an exchange.
 
 You will need to apply for an individual consumer key via a secure communication to Etrade Customer Service. You will be issued with a pair of sandbox keys initially, which will allow you to check that the software is installed correctly, then after you complete & return some API access agreements you will recieve keys that will allow you to connect to the live server.
 
