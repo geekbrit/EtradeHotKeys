@@ -7,6 +7,7 @@ from PyQt4.QtCore import QTimer, QRegExp
 import sys
 import math
 import json
+from pprint import pprint
 #import hkeys
 #import ahkeys
 #import ashkeys
@@ -22,6 +23,7 @@ class EtradeApp(QtGui.QMainWindow, ashkeys6.Ui_MainWindow):
         self.setupUi(self)
 
         self.cleartimer = QTimer()
+        self.cleartimer.setSingleShot(True)
         self.cleartimer.timeout.connect(lambda : self.statusBar.showMessage( "" ) )
         self.Arm.stateChanged.connect(self.arm)
 
@@ -129,7 +131,7 @@ class EtradeApp(QtGui.QMainWindow, ashkeys6.Ui_MainWindow):
                 multiplier.setText( str(quantity) )
             except KeyError:
                 self.statusBar.showMessage( quote['quoteResponse']['quoteData']['errorMessage'] )
-                print quote
+                pprint( quote )
         tickerLabel.setText( ticker )
 
 
@@ -145,12 +147,16 @@ class EtradeApp(QtGui.QMainWindow, ashkeys6.Ui_MainWindow):
             else:
                 result = self.sell_short(ticker, qty)
         if result:
-            print counter.text()
+            acc = int(counter.text())
+            if acc == 0:
+                print "START TIMER"
+                qtimer.start(8000)  # found 5 seconds didn't give time for short sales to complete
+            print acc
             print qty
             if type == 'LONG':
-                counter.setText(str(int(counter.text()) + int(qty)))
+                counter.setText(str(acc + int(qty)))
             else:
-                counter.setText(str(int(counter.text()) - int(qty)))
+                counter.setText(str(acc - int(qty)))
             suffix = counter.objectName()[-1]
             self.showLongShort( suffix )
 
@@ -197,7 +203,7 @@ class EtradeApp(QtGui.QMainWindow, ashkeys6.Ui_MainWindow):
         return self.report( etradepy.sellStopNow( trading_account, ticker.text(), qty.text(),trailing.text() ) )
 
     def report(self, response):
-        print response
+        pprint( response )
         if 'Error' in response:
             print type(response)
             self.status_msg( response['Error']['message'] )
@@ -366,11 +372,22 @@ class EtradeApp(QtGui.QMainWindow, ashkeys6.Ui_MainWindow):
 
 def main():
     global trading_account
+    global qtimer
 
     # start connection to etrade
     etradepy.login()
     accounts =  etradepy.listAccounts()
     trading_account = accounts['json.accountListResponse']['response'][0]['accountId']
+
+    #pprint(etradepy.listOrders(trading_account))
+    #
+    # This is a kludge to automatically place a stop loss order after placing a buy or a sell_short
+    # Ideally we'd get a response from the server after the initial order executes, but instead
+    # we set a short delay on qtimer in the placeEquityOrder function
+    #
+    qtimer = QTimer()
+    qtimer.setSingleShot(True)
+    qtimer.timeout.connect(etradepy.placeStopLossOrder)
 
     app = QtGui.QApplication(sys.argv)
     form = EtradeApp()
