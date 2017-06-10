@@ -1,10 +1,19 @@
 import os
 
 # GLOBAL CONFIG SETTINGS
-sandboxMode = False
-#sandboxMode = True
+#sandboxMode = False
+sandboxMode = True
+
+#------------------------------------------------------------------------
+#  STOPLOSS is used to place an emergency get-out order in case the
+#  stock quickly reverses & goes bad.
+#
+#  Set to zero to prevent the stop order from being placed automatically
+#-------------------------------------------------------------------------
 
 TRADESIZE = 7000 #dollars
+STOPLOSS  =  200 #dollars
+
 
 if not sandboxMode:
     client_Consumer_Key    = os.environ['ETRADE_PRODUCTION_KEY']

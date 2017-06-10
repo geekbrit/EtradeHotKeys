@@ -7,6 +7,7 @@ from PyQt4.QtCore import QTimer, QRegExp
 import sys
 import math
 import json
+from pprint import pprint
 #import hkeys
 #import ahkeys
 #import ashkeys
@@ -22,6 +23,7 @@ class EtradeApp(QtGui.QMainWindow, ashkeys6.Ui_MainWindow):
         self.setupUi(self)
 
         self.cleartimer = QTimer()
+        self.cleartimer.setSingleShot(True)
         self.cleartimer.timeout.connect(lambda : self.statusBar.showMessage( "" ) )
         self.Arm.stateChanged.connect(self.arm)
 
@@ -44,7 +46,9 @@ class EtradeApp(QtGui.QMainWindow, ashkeys6.Ui_MainWindow):
         try: loss  = getattr( self, 'loss_'+suffix )
         except AttributeError: pass
         #
+        quantity.textChanged.connect(lambda: self.showLongShort( quantity.objectName()[-1]))
         ticker.textChanged.connect(lambda: self.setTicker( ticker.text(), header, multiplier))
+        #---- LONG --------------------------------------------------------------------------------
         try:
             buy = getattr( self, 'Buy_'+suffix )
             buy.clicked.connect( lambda: self.buy( ticker, quantity ) )
@@ -61,7 +65,7 @@ class EtradeApp(QtGui.QMainWindow, ashkeys6.Ui_MainWindow):
         except AttributeError:
             pass
         try:
-            stoploss = getattr( self, 'SLimit_'+suffix )
+            stoploss = getattr( self, 'SLoss_'+suffix )
             stoploss.clicked.connect( lambda: self.stoploss( ticker, quantity, loss ) )
         except AttributeError:
             pass
@@ -85,7 +89,7 @@ class EtradeApp(QtGui.QMainWindow, ashkeys6.Ui_MainWindow):
             sHalf.clicked.connect(lambda: self.accumulate(ticker, -int(quantity.text())/2, quantity))
         except AttributeError:
             pass
-        #
+        #---- SHORT -------------------------------------------------------------------------------
         try:
             ss1x = getattr( self, 'SH1x_'+suffix )
             ss1x.clicked.connect(lambda: self.accumulate(ticker, multiplier.text(), quantity, type='SHORT'))
@@ -98,12 +102,12 @@ class EtradeApp(QtGui.QMainWindow, ashkeys6.Ui_MainWindow):
             pass
         try:
             bcA = getattr( self, 'BCa_'+suffix )
-            bcA.clicked.connect(lambda: self.accumulate(ticker, -int(quantity.text()), quantity, type='SHORT'))
+            bcA.clicked.connect(lambda: self.accumulate(ticker, int(quantity.text()), quantity, type='SHORT'))
         except AttributeError:
             pass
         try:
             bcHalf = getattr( self, 'BCh_'+suffix )
-            bcHalf.clicked.connect(lambda: self.accumulate(ticker, -int(quantity.text())/2, quantity, type='SHORT'))
+            bcHalf.clicked.connect(lambda: self.accumulate(ticker, int(quantity.text())/2, quantity, type='SHORT'))
         except AttributeError:
             pass
 
@@ -127,7 +131,7 @@ class EtradeApp(QtGui.QMainWindow, ashkeys6.Ui_MainWindow):
                 multiplier.setText( str(quantity) )
             except KeyError:
                 self.statusBar.showMessage( quote['quoteResponse']['quoteData']['errorMessage'] )
-                print quote
+                pprint( quote )
         tickerLabel.setText( ticker )
 
 
@@ -143,9 +147,19 @@ class EtradeApp(QtGui.QMainWindow, ashkeys6.Ui_MainWindow):
             else:
                 result = self.sell_short(ticker, qty)
         if result:
-            print counter.text()
+            acc = int(counter.text())
+            if acc == 0:
+                print "START TIMER"
+                qtimer.start(8000)  # found 5 seconds didn't give time for short sales to complete
+            print acc
             print qty
-            counter.setText(str(int(counter.text()) + int(qty)))
+            if type == 'LONG':
+                counter.setText(str(acc + int(qty)))
+            else:
+                counter.setText(str(acc - int(qty)))
+            suffix = counter.objectName()[-1]
+            self.showLongShort( suffix )
+
 
 
     def buy_to_cover(self, ticker, qty):
@@ -189,7 +203,7 @@ class EtradeApp(QtGui.QMainWindow, ashkeys6.Ui_MainWindow):
         return self.report( etradepy.sellStopNow( trading_account, ticker.text(), qty.text(),trailing.text() ) )
 
     def report(self, response):
-        print response
+        pprint( response )
         if 'Error' in response:
             print type(response)
             self.status_msg( response['Error']['message'] )
@@ -249,6 +263,54 @@ class EtradeApp(QtGui.QMainWindow, ashkeys6.Ui_MainWindow):
             except AttributeError:
                 pass
 
+
+    def showLongShort( self, suffix ):
+        """ This function is called after every transaction, and ensures that
+            LONG buttons are hidden if you are in a SHORT position, and vice versa
+        """
+        qty = getattr( self, 'qty_'+suffix )
+        quantity = int( qty.text() )
+        try:
+            w = getattr( self, 'B1K_'+suffix )
+            w.setEnabled(True)
+            w = getattr( self, 'B2K_'+suffix )
+            w.setEnabled(True)
+            w = getattr( self, 'SAll_'+suffix )
+            w.setEnabled(True)
+            w = getattr( self, 'SHalf_'+suffix )
+            w.setEnabled(True)
+            w = getattr( self, 'SH1x_'+suffix )
+            w.setEnabled(True)
+            w = getattr( self, 'SH2x_'+suffix )
+            w.setEnabled(True)
+            w = getattr( self, 'BCa_'+suffix )
+            w.setEnabled(True)
+            w = getattr( self, 'BCh_'+suffix )
+            w.setEnabled(True)
+            if quantity > 0:
+                w = getattr( self, 'SH1x_'+suffix )
+                w.setEnabled(False)
+                w = getattr( self, 'SH2x_'+suffix )
+                w.setEnabled(False)
+                w = getattr( self, 'BCa_'+suffix )
+                w.setEnabled(False)
+                w = getattr( self, 'BCh_'+suffix )
+                w.setEnabled(False)
+            if quantity < 0:
+                w = getattr( self, 'B1K_'+suffix )
+                w.setEnabled(False)
+                w = getattr( self, 'B2K_'+suffix )
+                w.setEnabled(False)
+                w = getattr( self, 'SAll_'+suffix )
+                w.setEnabled(False)
+                w = getattr( self, 'SHalf_'+suffix )
+                w.setEnabled(False)
+
+        except AttributeError:
+            pass
+
+
+
     # TODO - use frame discovery method
     def saveState( self ):
         try:
@@ -258,16 +320,19 @@ class EtradeApp(QtGui.QMainWindow, ashkeys6.Ui_MainWindow):
                     't3': self.T_3.text(),
                     't4': self.T_4.text(),
                     't5': self.T_5.text(),
+                    't6': self.T_6.text(),
                     'q1': self.qty_1.text(),
                     'q2': self.qty_2.text(),
                     'q3': self.qty_3.text(),
                     'q4': self.qty_4.text(),
                     'q5': self.qty_5.text(),
+                    'q6': self.qty_6.text(),
                     'm1': self.multiplier_1.text(),
                     'm2': self.multiplier_2.text(),
                     'm3': self.multiplier_3.text(),
                     'm4': self.multiplier_4.text(),
-                    'm5': self.multiplier_5.text()
+                    'm5': self.multiplier_5.text(),
+                    'm6': self.multiplier_6.text()
                     }
             with open('state.txt', 'w') as outfile:
                 json.dump( data, outfile )
@@ -287,16 +352,19 @@ class EtradeApp(QtGui.QMainWindow, ashkeys6.Ui_MainWindow):
             self.T_3.setText( data['t3'] )
             self.T_4.setText( data['t4'] )
             self.T_5.setText( data['t5'] )
+            self.T_6.setText( data['t6'] )
             self.qty_1.setText( data['q1'] )
             self.qty_2.setText( data['q2'] )
             self.qty_3.setText( data['q3'] )
             self.qty_4.setText( data['q4'] )
             self.qty_5.setText( data['q5'] )
+            self.qty_6.setText( data['q6'] )
             self.multiplier_1.setText( data['m1'] )
             self.multiplier_2.setText( data['m2'] )
             self.multiplier_3.setText( data['m3'] )
             self.multiplier_4.setText( data['m4'] )
             self.multiplier_5.setText( data['m5'] )
+            self.multiplier_6.setText( data['m6'] )
         except AttributeError:
             pass
 
@@ -304,11 +372,22 @@ class EtradeApp(QtGui.QMainWindow, ashkeys6.Ui_MainWindow):
 
 def main():
     global trading_account
+    global qtimer
 
     # start connection to etrade
     etradepy.login()
     accounts =  etradepy.listAccounts()
     trading_account = accounts['json.accountListResponse']['response'][0]['accountId']
+
+    #pprint(etradepy.listOrders(trading_account))
+    #
+    # This is a kludge to automatically place a stop loss order after placing a buy or a sell_short
+    # Ideally we'd get a response from the server after the initial order executes, but instead
+    # we set a short delay on qtimer in the placeEquityOrder function
+    #
+    qtimer = QTimer()
+    qtimer.setSingleShot(True)
+    qtimer.timeout.connect(etradepy.placeStopLossOrder)
 
     app = QtGui.QApplication(sys.argv)
     form = EtradeApp()
