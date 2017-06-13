@@ -10,14 +10,14 @@ import json
 from pprint import pprint
 #import hkeys
 #import ahkeys
-#import ashkeys
+import ashkeys
 #import ashkeys5
-import ashkeys6
+#import ashkeys6
 import etradepy
 
 from etrade_settings import TRADESIZE
 
-class EtradeApp(QtGui.QMainWindow, ashkeys6.Ui_MainWindow):
+class EtradeApp(QtGui.QMainWindow, ashkeys.Ui_MainWindow):
     def __init__(self, parent=None):
         super(EtradeApp, self).__init__(parent)
         self.setupUi(self)
@@ -310,64 +310,46 @@ class EtradeApp(QtGui.QMainWindow, ashkeys6.Ui_MainWindow):
             pass
 
 
-
-    # TODO - use frame discovery method
     def saveState( self ):
-        try:
-            data = {
-                    't1': self.T_1.text(),
-                    't2': self.T_2.text(),
-                    't3': self.T_3.text(),
-                    't4': self.T_4.text(),
-                    't5': self.T_5.text(),
-                    't6': self.T_6.text(),
-                    'q1': self.qty_1.text(),
-                    'q2': self.qty_2.text(),
-                    'q3': self.qty_3.text(),
-                    'q4': self.qty_4.text(),
-                    'q5': self.qty_5.text(),
-                    'q6': self.qty_6.text(),
-                    'm1': self.multiplier_1.text(),
-                    'm2': self.multiplier_2.text(),
-                    'm3': self.multiplier_3.text(),
-                    'm4': self.multiplier_4.text(),
-                    'm5': self.multiplier_5.text(),
-                    'm6': self.multiplier_6.text()
-                    }
+        data = {}
+        qreq = QRegExp(r'frame.\d')
+        frames = self.findChildren(QtGui.QFrame, qreq)
+        for frame in frames:
+            suffix = frame.objectName()[-1]
+            try:
+                w = getattr( self, 'T_'+suffix )
+                data['t'+suffix] = w.text()
+                w = getattr( self, 'qty_'+suffix )
+                data['q'+suffix] = w.text()
+                w = getattr( self, 'multiplier_'+suffix )
+                data['m'+suffix] = w.text()
+            except AttributeError:
+                pass
+
             with open('state.txt', 'w') as outfile:
                 json.dump( data, outfile )
-        except AttributeError:
-            pass
 
-    # TODO - use frame discovery method
+
     def restoreState( self ):
         try:
             with open('state.txt','r') as infile:
                 data = json.load( infile )
         except IOError:
             return
-        try:
-            self.T_1.setText( data['t1'] )
-            self.T_2.setText( data['t2'] )
-            self.T_3.setText( data['t3'] )
-            self.T_4.setText( data['t4'] )
-            self.T_5.setText( data['t5'] )
-            self.T_6.setText( data['t6'] )
-            self.qty_1.setText( data['q1'] )
-            self.qty_2.setText( data['q2'] )
-            self.qty_3.setText( data['q3'] )
-            self.qty_4.setText( data['q4'] )
-            self.qty_5.setText( data['q5'] )
-            self.qty_6.setText( data['q6'] )
-            self.multiplier_1.setText( data['m1'] )
-            self.multiplier_2.setText( data['m2'] )
-            self.multiplier_3.setText( data['m3'] )
-            self.multiplier_4.setText( data['m4'] )
-            self.multiplier_5.setText( data['m5'] )
-            self.multiplier_6.setText( data['m6'] )
-        except AttributeError:
-            pass
 
+        qreq = QRegExp(r'frame.\d')
+        frames = self.findChildren(QtGui.QFrame, qreq)
+        for frame in frames:
+            suffix = frame.objectName()[-1]
+            try:
+                w = getattr( self, 'T_'+suffix )
+                w.setText( data['t'+suffix] )
+                w = getattr( self, 'qty_'+suffix )
+                w.setText( data['q'+suffix] )
+                w = getattr( self, 'multiplier_'+suffix )
+                w.setText( data['m'+suffix] )
+            except AttributeError:
+                pass
 
 
 def main():

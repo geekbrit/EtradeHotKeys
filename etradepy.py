@@ -21,6 +21,7 @@ client_Consumer_Key    = etrade_settings.client_Consumer_Key
 client_Consumer_Secret = etrade_settings.client_Consumer_Secret
 sandboxMode            = etrade_settings.sandboxMode
 STOPLOSS               = etrade_settings.STOPLOSS
+STOPTYPE               = etrade_settings.STOPTYPE
 
 def urlRoot():
   """
@@ -600,13 +601,20 @@ def placeStopLossOrder( ):
 
         if (orderaction == 'BUY' or orderaction == 'SELL_SHORT') and STOPLOSS:
             if orderaction == 'BUY':
-                target = amount - STOPLOSS
+                if STOPTYPE == 'DOLLAR':
+                    target = amount - STOPLOSS                  # dollar stoploss amount
+                else:
+                    target = amount - (amount * STOPLOSS)/100   # percent stoploss amount
                 stoplossaction = 'SELL'
             else:
                 # amount is negative for Short sell, need STOPLOSS + abs( amount ) for buy to cover limit
-                target = STOPLOSS - amount
+                if STOPTYPE == 'DOLLAR':
+                    target = STOPLOSS - amount                  # dollar stoploss amount
+                else:
+                    target = -(amount + (amount * STOPLOSS)/100)# percent stoploss amount
                 stoplossaction = 'BUY_TO_COVER'
 
+            print target
             price = round( target/quantity, 2 )
 
             clientOrderId = datetime.datetime.now().strftime('%y%m%d%H%M%S')+symbol
