@@ -1,7 +1,6 @@
 import os
 
 # GLOBAL CONFIG SETTINGS
-sandboxMode = False
 #sandboxMode = True
 
 #-----------------------------------------------------------------------------
@@ -14,13 +13,15 @@ sandboxMode = False
 #-----------------------------------------------------------------------------
 
 TRADESIZE   = 7000 #dollars
-STOPLOSS    =    3 #percent
-STOPTYPE    = 'PERCENT' #'DOLLARS'or 'PERCENT'
+STOPLOSS    =  140 #dollars
+STOPTYPE    = 'DOLLARS' #'DOLLARS'or 'PERCENT'
 
-if not sandboxMode:
-    client_Consumer_Key    = os.environ['ETRADE_PRODUCTION_KEY']
-    client_Consumer_Secret = os.environ['ETRADE_PRODUCTION_SECRET']
-else:
+try:
+    sandboxMode
     client_Consumer_Key    = os.environ['ETRADE_SANDBOX_KEY']
     client_Consumer_Secret = os.environ['ETRADE_SANDBOX_SECRET']
+except NameError:
+    client_Consumer_Key    = os.environ['ETRADE_PRODUCTION_KEY']
+    client_Consumer_Secret = os.environ['ETRADE_PRODUCTION_SECRET']
+    sandboxMode = False
 

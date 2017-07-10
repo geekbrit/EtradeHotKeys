@@ -1,0 +1,2 @@
+DATE=`date +%Y%m%d`
+./e-keys.py | tee logs/$DATE.log

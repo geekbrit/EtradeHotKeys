@@ -10,17 +10,19 @@ import json
 from pprint import pprint
 #import hkeys
 #import ahkeys
-import ashkeys
+import ashkeystab
 #import ashkeys5
 #import ashkeys6
 import etradepy
 
 from etrade_settings import TRADESIZE
 
-class EtradeApp(QtGui.QMainWindow, ashkeys.Ui_MainWindow):
+class EtradeApp(QtGui.QMainWindow, ashkeystab.Ui_MainWindow):
     def __init__(self, parent=None):
         super(EtradeApp, self).__init__(parent)
         self.setupUi(self)
+
+        self.setWindowTitle(trading_account_name)
 
         self.cleartimer = QTimer()
         self.cleartimer.setSingleShot(True)
@@ -44,6 +46,10 @@ class EtradeApp(QtGui.QMainWindow, ashkeys.Ui_MainWindow):
         try: price = getattr( self, 'price_'+suffix )
         except AttributeError: pass
         try: loss  = getattr( self, 'loss_'+suffix )
+        except AttributeError: pass
+        try: stop  = getattr( self, 'stop_'+suffix )
+        except AttributeError: pass
+        try: order  = getattr( self, 'order_'+suffix )
         except AttributeError: pass
         #
         quantity.textChanged.connect(lambda: self.showLongShort( quantity.objectName()[-1]))
@@ -110,6 +116,48 @@ class EtradeApp(QtGui.QMainWindow, ashkeys.Ui_MainWindow):
             bcHalf.clicked.connect(lambda: self.accumulate(ticker, int(quantity.text())/2, quantity, type='SHORT'))
         except AttributeError:
             pass
+        try:
+            order = getattr( self, 'order_'+suffix )
+            bcx = getattr( self, 'Cx_'+suffix )
+            bcx.setEnabled( True )
+            bcx.clicked.connect(lambda: self.cancel( order, stop ))
+        except AttributeError:
+            pass
+        try:
+            order = getattr( self, 'order_'+suffix )
+            bch = getattr( self, 'Chg_'+suffix )
+            bch.setEnabled( True )
+            bch.clicked.connect(lambda: self.change( order, ticker, quantity, stop ))
+        except AttributeError:
+            pass
+
+
+    def cancel( self,  order, stop ):
+        cx = etradepy.cancelOrder( trading_account, order.text() )
+        pprint( cx )
+        order.setText( '' )
+        stop.setText( '' )
+
+
+    def change( self, order, ticker, quantity, stop ):
+        qty = int(quantity.text())
+        if qty < 0:
+            qty = -qty
+            action = 'BUY_TO_COVER'
+        else:
+            action = 'SELL'
+
+        ch = etradepy.placeEquityOrderChangeNow(
+                trading_account,
+                order.text(),
+                ticker.text(),
+                qty,
+                action,
+                stop.text()
+            )
+        pprint( ch )
+        response = ch['placeChangeEquityOrderResponse']['EquityOrderResponse']
+        order.setText( str(response['orderNum']) )
 
 
     def setTicker( self, ticker, tickerLabel, multiplier ):
@@ -150,7 +198,9 @@ class EtradeApp(QtGui.QMainWindow, ashkeys.Ui_MainWindow):
             acc = int(counter.text())
             if acc == 0:
                 print "START TIMER"
-                qtimer.start(8000)  # found 5 seconds didn't give time for short sales to complete
+                # found 5 seconds didn't give time for short sales to complete
+                timeout = 3500 if type == 'LONG' else 8000;
+                qtimer.start(timeout)
             print acc
             print qty
             if type == 'LONG':
@@ -267,47 +317,51 @@ class EtradeApp(QtGui.QMainWindow, ashkeys.Ui_MainWindow):
     def showLongShort( self, suffix ):
         """ This function is called after every transaction, and ensures that
             LONG buttons are hidden if you are in a SHORT position, and vice versa
-        """
-        qty = getattr( self, 'qty_'+suffix )
-        quantity = int( qty.text() )
-        try:
-            w = getattr( self, 'B1K_'+suffix )
-            w.setEnabled(True)
-            w = getattr( self, 'B2K_'+suffix )
-            w.setEnabled(True)
-            w = getattr( self, 'SAll_'+suffix )
-            w.setEnabled(True)
-            w = getattr( self, 'SHalf_'+suffix )
-            w.setEnabled(True)
-            w = getattr( self, 'SH1x_'+suffix )
-            w.setEnabled(True)
-            w = getattr( self, 'SH2x_'+suffix )
-            w.setEnabled(True)
-            w = getattr( self, 'BCa_'+suffix )
-            w.setEnabled(True)
-            w = getattr( self, 'BCh_'+suffix )
-            w.setEnabled(True)
-            if quantity > 0:
-                w = getattr( self, 'SH1x_'+suffix )
-                w.setEnabled(False)
-                w = getattr( self, 'SH2x_'+suffix )
-                w.setEnabled(False)
-                w = getattr( self, 'BCa_'+suffix )
-                w.setEnabled(False)
-                w = getattr( self, 'BCh_'+suffix )
-                w.setEnabled(False)
-            if quantity < 0:
-                w = getattr( self, 'B1K_'+suffix )
-                w.setEnabled(False)
-                w = getattr( self, 'B2K_'+suffix )
-                w.setEnabled(False)
-                w = getattr( self, 'SAll_'+suffix )
-                w.setEnabled(False)
-                w = getattr( self, 'SHalf_'+suffix )
-                w.setEnabled(False)
 
-        except AttributeError:
-            pass
+            ALSO called when the qty is changed directly by the user - only update
+            the key states if the panel is "live" - Arm is checked
+        """
+        if self.Arm.isChecked():
+            qty = getattr( self, 'qty_'+suffix )
+            quantity = int( qty.text() )
+            try:
+                w = getattr( self, 'B1K_'+suffix )
+                w.setEnabled(True)
+                w = getattr( self, 'B2K_'+suffix )
+                w.setEnabled(True)
+                w = getattr( self, 'SAll_'+suffix )
+                w.setEnabled(True)
+                w = getattr( self, 'SHalf_'+suffix )
+                w.setEnabled(True)
+                w = getattr( self, 'SH1x_'+suffix )
+                w.setEnabled(True)
+                w = getattr( self, 'SH2x_'+suffix )
+                w.setEnabled(True)
+                w = getattr( self, 'BCa_'+suffix )
+                w.setEnabled(True)
+                w = getattr( self, 'BCh_'+suffix )
+                w.setEnabled(True)
+                if quantity > 0:
+                    w = getattr( self, 'SH1x_'+suffix )
+                    w.setEnabled(False)
+                    w = getattr( self, 'SH2x_'+suffix )
+                    w.setEnabled(False)
+                    w = getattr( self, 'BCa_'+suffix )
+                    w.setEnabled(False)
+                    w = getattr( self, 'BCh_'+suffix )
+                    w.setEnabled(False)
+                if quantity < 0:
+                    w = getattr( self, 'B1K_'+suffix )
+                    w.setEnabled(False)
+                    w = getattr( self, 'B2K_'+suffix )
+                    w.setEnabled(False)
+                    w = getattr( self, 'SAll_'+suffix )
+                    w.setEnabled(False)
+                    w = getattr( self, 'SHalf_'+suffix )
+                    w.setEnabled(False)
+
+            except AttributeError:
+                pass
 
 
     def saveState( self ):
@@ -348,20 +402,45 @@ class EtradeApp(QtGui.QMainWindow, ashkeys.Ui_MainWindow):
                 w.setText( data['q'+suffix] )
                 w = getattr( self, 'multiplier_'+suffix )
                 w.setText( data['m'+suffix] )
-            except AttributeError:
+            except (AttributeError, KeyError) as e:
                 pass
 
+    def recordStopLossOrder( self ):
+        resp = etradepy.placeStopLossOrder()
+        response = resp['PlaceEquityOrderResponse']['EquityOrderResponse']
+        # find frame  associated with this symbol
+        #   fill in stop loss order details,
+        #       save EquityOrderRequest with order number from
+        #       EquityOrderResponse
+        qreq = QRegExp(r'frame.\d')
+        frames = self.findChildren(QtGui.QFrame, qreq)
+        for frame in frames:
+            suffix = frame.objectName()[-1]
+            label = getattr( self, 'ticker_'+suffix )
+            print( response['symbol'] )
+            if label.text() == response['symbol']:
+                print( label.text() )
+                order = getattr( self, 'order_'+suffix )
+                order.setText( str(response['orderNum']) )
+                stop = getattr( self, 'stop_'+suffix )
+                stop.setText( str(response['stopPrice']) )
 
 def main():
     global trading_account
+    global trading_account_name
     global qtimer
 
     # start connection to etrade
     etradepy.login()
     accounts =  etradepy.listAccounts()
     trading_account = accounts['json.accountListResponse']['response'][0]['accountId']
+    trading_account_name = accounts['json.accountListResponse']['response'][0]['accountDesc']
 
-    #pprint(etradepy.listOrders(trading_account))
+    app = QtGui.QApplication(sys.argv)
+    form = EtradeApp()
+    form.show()
+    form.statusBar.showMessage( accounts['json.accountListResponse']['response'][0]['accountDesc'])
+    form.restoreState()
     #
     # This is a kludge to automatically place a stop loss order after placing a buy or a sell_short
     # Ideally we'd get a response from the server after the initial order executes, but instead
@@ -369,13 +448,8 @@ def main():
     #
     qtimer = QTimer()
     qtimer.setSingleShot(True)
-    qtimer.timeout.connect(etradepy.placeStopLossOrder)
+    qtimer.timeout.connect(form.recordStopLossOrder)
 
-    app = QtGui.QApplication(sys.argv)
-    form = EtradeApp()
-    form.show()
-    form.statusBar.showMessage( accounts['json.accountListResponse']['response'][0]['accountDesc'])
-    form.restoreState()
     app.aboutToQuit.connect(form.saveState)
     app.exec_()
 

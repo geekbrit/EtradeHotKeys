@@ -3,3 +3,4 @@ user_tokens.p
 etrade_settings.py
 state.txt
 *.swp
+logs
