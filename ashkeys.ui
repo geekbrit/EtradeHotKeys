@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>502</width>
-    <height>502</height>
+    <height>513</height>
    </rect>
   </property>
   <property name="palette">
@@ -960,7 +960,7 @@
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>290</y>
+          <y>400</y>
           <width>100</width>
           <height>31</height>
          </rect>
@@ -1265,7 +1265,7 @@
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>410</y>
+          <y>290</y>
           <width>41</width>
           <height>32</height>
          </rect>
@@ -1281,7 +1281,7 @@
         <property name="geometry">
          <rect>
           <x>80</x>
-          <y>410</y>
+          <y>290</y>
           <width>41</width>
           <height>32</height>
          </rect>
@@ -1293,6 +1293,24 @@
          <string>Chg</string>
         </property>
        </widget>
+       <zorder>B1K_1</zorder>
+       <zorder>ticker_1</zorder>
+       <zorder>qty_1</zorder>
+       <zorder>SAll_1</zorder>
+       <zorder>SHalf_1</zorder>
+       <zorder>T_1</zorder>
+       <zorder>B2K_1</zorder>
+       <zorder>multiplier_1</zorder>
+       <zorder>SH2x_1</zorder>
+       <zorder>SH1x_1</zorder>
+       <zorder>BCh_1</zorder>
+       <zorder>BCa_1</zorder>
+       <zorder>line</zorder>
+       <zorder>stop_1</zorder>
+       <zorder>order_1</zorder>
+       <zorder>frame_2</zorder>
+       <zorder>Cx_1</zorder>
+       <zorder>Chg_1</zorder>
       </widget>
      </item>
      <item>
@@ -1381,7 +1399,7 @@
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>290</y>
+          <y>400</y>
           <width>100</width>
           <height>31</height>
          </rect>
@@ -1728,7 +1746,7 @@
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>410</y>
+          <y>290</y>
           <width>41</width>
           <height>32</height>
          </rect>
@@ -1744,7 +1762,7 @@
         <property name="geometry">
          <rect>
           <x>80</x>
-          <y>410</y>
+          <y>290</y>
           <width>41</width>
           <height>32</height>
          </rect>
@@ -1756,24 +1774,6 @@
          <string>Chg</string>
         </property>
        </widget>
-       <zorder>ticker_2</zorder>
-       <zorder>qty_2</zorder>
-       <zorder>T_2</zorder>
-       <zorder>B2K_2</zorder>
-       <zorder>B1K_2</zorder>
-       <zorder>SHalf_2</zorder>
-       <zorder>SAll_2</zorder>
-       <zorder>multiplier_2</zorder>
-       <zorder>SH2x_2</zorder>
-       <zorder>SH1x_2</zorder>
-       <zorder>BCh_2</zorder>
-       <zorder>BCa_2</zorder>
-       <zorder>line_2</zorder>
-       <zorder>stop_2</zorder>
-       <zorder>frame_1</zorder>
-       <zorder>order_2</zorder>
-       <zorder>Cx_2</zorder>
-       <zorder>Chg_2</zorder>
       </widget>
      </item>
      <item>
@@ -1862,7 +1862,7 @@
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>290</y>
+          <y>400</y>
           <width>100</width>
           <height>31</height>
          </rect>
@@ -2209,7 +2209,7 @@
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>410</y>
+          <y>290</y>
           <width>41</width>
           <height>32</height>
          </rect>
@@ -2225,7 +2225,7 @@
         <property name="geometry">
          <rect>
           <x>80</x>
-          <y>410</y>
+          <y>290</y>
           <width>41</width>
           <height>32</height>
          </rect>
@@ -2287,7 +2287,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>310</y>
+      <y>430</y>
       <width>41</width>
       <height>18</height>
      </rect>
