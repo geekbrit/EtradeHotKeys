@@ -156,7 +156,7 @@ class EtradeApp(QtGui.QMainWindow, ashkeystab.Ui_MainWindow):
                 stop.text()
             )
         pprint( ch )
-        response = ch['placeChangeEquityOrderResponse']['EquityOrderResponse']
+        response = ch['placeChangeEquityOrderResponse']['equityOrderResponse']
         order.setText( str(response['orderNum']) )
 
 
