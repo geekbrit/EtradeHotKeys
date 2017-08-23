@@ -12,8 +12,8 @@ import os
 #  200 dollar stop loss gave some expensive early bailouts on very big orders
 #-----------------------------------------------------------------------------
 
-TRADESIZE   = 7000 #dollars
-STOPLOSS    =  140 #dollars
+TRADESIZE   = 8000 #dollars
+STOPLOSS    =  240 #dollars
 STOPTYPE    = 'DOLLARS' #'DOLLARS'or 'PERCENT'
 
 try:
