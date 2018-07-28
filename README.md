@@ -1,5 +1,7 @@
 # Etrade HotKeys
 
+This project is licensed under the terms of the MIT license.
+
 The motivation for this project was to allow Etrade buys and sells to be made more quickly than is possible using the tools built into etradePro. This is achieved by eliminating the "Preview" step and "Cancelled due to timeout" that occurs in etradePro if you leave the preview open too long before placing your trade. THIS MAKES HOTKEYS A VERY DANGEROUS TOOL TO USE IF YOU MAKE A MISTAKE WHEN CLICKING "BUY" OR "SELL". Be sure you really intend to place the trade before clicking any button.
 
 **Update** - this project now has two available user interfaces, the original 'hkeys' described below, and a more advanced 'ahkeys' option that is targeted at active trading, where positions may be accumulated and closed out at various times.

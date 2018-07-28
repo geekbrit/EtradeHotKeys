@@ -257,6 +257,9 @@ class EtradeApp(QtGui.QMainWindow, ash.Ui_MainWindow):
         if 'Error' in response:
             print type(response)
             self.status_msg( response['Error']['message'] )
+            msg = QMessageBox()
+            msg.setIcon( QMessageBox.Error )
+            msg.setText( "Order Placement Error")
             return False
         else:
             self.status_msg( response['PlaceEquityOrderResponse']['EquityOrderResponse']['messageList']['msgDesc'] )

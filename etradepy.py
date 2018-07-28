@@ -638,35 +638,64 @@ def placeStopLossOrder( ):
                 }
             }
             pprint( liveParams )
-            return placeEquityOrder(liveParams)
+            # fold liveParams into response, allows them to be captured even if there was an error
+            # (such as stop limit already passed)
+            resp = placeEquityOrder(liveParams)
+            return resp
 
     except KeyError:
         # The originating order did not succeed 
         return {}
 
 def placeEquityOrderChangeNow(AcctNumber, orderNum, symbol, quantity, orderAction, stop):
+    '''
+        If the orderNum is zero, create a new stoploss order using the other parameters
+    '''
     clientOrderId = datetime.datetime.now().strftime('%y%m%d%H%M%S')+symbol
-    changeEquityOrderRequest = {
-        "accountId": AcctNumber,
-        "orderNum": orderNum,
-       # "symbol": symbol,
-        "orderAction": orderAction,
-        "clientOrderId": clientOrderId,
-        "priceType": "STOP",
-        "stopPrice": stop,
-        "quantity": quantity,
-       # "marketSession": "REGULAR",
-        "orderTerm": "GOOD_FOR_DAY",
-       # "routingDestination": "AUTO"
-    }
-    liveParams = {
-        "placeChangeEquityOrder": {
-            "-xmlns": "http://order.etws.etrade.com",
-            'changeEquityOrderRequest' : changeEquityOrderRequest
+    if orderNum:
+        changeEquityOrderRequest = {
+            "accountId": AcctNumber,
+            "orderNum": orderNum,
+           # "symbol": symbol,
+            "orderAction": orderAction,
+            "clientOrderId": clientOrderId,
+            "priceType": "STOP",
+            "stopPrice": stop,
+            "quantity": quantity,
+           # "marketSession": "REGULAR",
+            "orderTerm": "GOOD_FOR_DAY",
+           # "routingDestination": "AUTO"
         }
-    }
-    pprint( liveParams )
-    return placeEquityOrderChange(liveParams)
+        liveParams = {
+            "placeChangeEquityOrder": {
+                "-xmlns": "http://order.etws.etrade.com",
+                'changeEquityOrderRequest' : changeEquityOrderRequest
+            }
+        }
+        pprint( liveParams )
+        return placeEquityOrderChange(liveParams)
+    else:
+        EquityOrderRequest = {
+            "accountId": AcctNumber,
+           # "orderNum": orderNum,
+            "symbol": symbol,
+            "orderAction": orderAction,
+            "clientOrderId": clientOrderId,
+            "priceType": "STOP",
+            "stopPrice": stop,
+            "quantity": quantity,
+            "marketSession": "REGULAR",
+            "orderTerm": "GOOD_FOR_DAY",
+            "routingDestination": "AUTO"
+        }
+        liveParams = {
+            "placeEquityOrder": {
+                "-xmlns": "http://order.etws.etrade.com",
+                'EquityOrderRequest' : EquityOrderRequest
+            }
+        }
+        pprint( liveParams )
+        return placeEquityOrder(liveParams)
 
 
 def previewEquityOrderChange(AcctNumber, orderNum, quantity, priceType,
